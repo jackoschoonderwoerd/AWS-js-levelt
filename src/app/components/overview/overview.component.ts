@@ -17,8 +17,7 @@ export class OverviewComponent implements OnInit {
 
 
   orders;
-  // dateArray = [];
-  // selected;
+
 
 
 
