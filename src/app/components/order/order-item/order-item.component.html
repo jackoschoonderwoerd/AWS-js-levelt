@@ -1,0 +1,131 @@
+<!-- <p>order-item works! {{type}}</p>
+<p>isEditMode: {{isEditMode}}</p> -->
+<section #sections class="section" fxLayoutAlign="center center">
+  <mat-card>
+    <form
+      class="order-form"
+      [formGroup]="orderItemForm"
+      fxLayout="column"
+      (ngSubmit)="onSubmitOrderForm()">
+
+      <mat-form-field>
+        <mat-select
+          placeholder="SELECT ITEM"
+          formControlName="nameAndPrice"
+          (selectionChange)="nameAndPriceChanged($event)">
+          <mat-option *ngFor="let nameAndPrice of namesAndPrices" [value]="nameAndPrice">
+            {{nameAndPrice}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="orderItemForm.get('nameAndPrice').value !== null">
+        <mat-select
+          placeholder="SELECT WEIGHT"
+          formControlName="weightUnit"
+          (selectionChange)="selectedWeightUnitChanged($event)">
+          <mat-option *ngFor="let weightUnit of weightUnits" [value]="weightUnit">
+            {{weightUnit}} gr.
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="orderItemForm.get('nameAndPrice').value !== null && orderItemForm.get('weightUnit').value !== null"
+        class="capacity">
+        <mat-radio-group
+          formControlName="capacity"
+          color="primary"
+          *ngIf="type === 'coffee'"
+          (change)="capacitySelectedChanged($event)"
+          fxLayout
+          fxLayoutGap="25px">
+          <mat-radio-button value="beans">BEANS</mat-radio-button>
+          <mat-radio-button value="ground">GROUND</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div
+        class="grind-instructions"
+        *ngIf="orderItemForm.value.capacity === 'ground'">
+        <p>Wij bepalen de maling aan de hand van de door u opgegeven instructies</p>
+        <p>Indien u bekend bent met onze molens, en weet op wat voor stand wij normaal u koffie malen kunt u dat hier
+          aangeven</p>
+        <p>In het andere geval bepalen we de maling aan de hand van de door u opgegeven zetmethode</p>
+      </div>
+
+      <mat-radio-group
+        class="brew-method-or-mill"
+        *ngIf="orderItemForm.value.capacity === 'ground'"
+        fxLayout aria-label="Select an option"
+        color="primary"
+        formControlName="brewMethodOrMill"
+        (change)="brewMethodOrMillChanged($event)"
+        fxLayout>
+        <mat-radio-button value="brewMethod">ZETMETHODE</mat-radio-button>
+        <div class="h-filler-20"></div>
+        <mat-radio-button value="mill">MOLEN</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field *ngIf="orderItemForm.value.brewMethodOrMill === 'brewMethod'">
+        <mat-label>Selecteer zetmethode</mat-label>
+        <mat-select
+          (selectionChange)="brewMethodSelected()"
+          formControlName="brewMethod">
+          <mat-option *ngFor="let brewMethod of brewMethods" [value]="brewMethod">
+            {{ brewMethod }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="mill"
+        fxLayout="row"
+        fxLayoutAlign="space-between"
+        fxLayoutGap="15px"
+        *ngIf="orderItemForm.value.brewMethodOrMill === 'mill'">
+        <mat-form-field style="width: 50%">
+          <mat-label>Selecteer molen</mat-label>
+          <mat-select
+            (selectionChange)="millSelected()"
+            formControlName="mill">
+            <mat-option value="gray">grijze molen</mat-option>
+            <mat-option value="black">zwarte molen</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%">
+          <mat-label>Maalstand</mat-label>
+          <mat-select
+            (selectionChange)="grindSizeSelected()"
+            formControlName="grindSize">
+            <mat-option *ngFor="let grindSize of grindSizes" [value]="grindSize">
+              {{ grindSize }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="item-cost" fxLayout fxLayoutAlign="space-between" *ngIf="itemCost">
+        <span>ITEM COST</span><span>{{itemCost | currency:'EUR'}}</span>
+      </div>
+
+      <div class="button" fxLayout fxLayoutAlign="space-between" fxLayoutGap="25px">
+        <button
+          class="cancel-button"
+          (click)="onCancel()"
+          type="button"
+          mat-raised-button
+          color="warn">
+          CANCEL
+        </button>
+        <button
+          class="add-button"
+          [disabled]="!isFormIsValid"
+          mat-raised-button
+          color="primary">
+          {{isEditMode ? 'CONFIRM EDIT' : 'ADD'}}
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</section>

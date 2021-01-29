@@ -1,0 +1,23 @@
+h4 {
+  display: flex;
+  justify-content: center;
+}
+.order-properties {
+  font-size: 14px;
+}
+.delete-button, .edit-button {
+  width: 45%
+}
+.close-button {
+  width: 100%
+}
+
+li {
+  padding-top: 3px;
+  padding-right: 7px;
+  padding-bottom: 3px;
+  padding-left: 7px;
+}
+li:nth-child(odd) {
+  background: #ccc;
+}

@@ -1,0 +1,313 @@
+<div *ngIf="isLoading" class="loader">Loading...</div>
+
+<section
+  *ngIf="!isLoading"
+  class="section"
+  fxLayout
+  fxLayoutAlign="center">
+  <mat-card>
+    <ul>
+      <li
+        class="ordered-item"
+        *ngFor="let orderedItem of orderedItems; let index = index"
+        fxLayout fxLayoutAlign="space-between">
+        <div class="ordered-item-properties" fxLayout>
+          <mat-icon class="delete-icon" (click)="onInfo(orderedItem, index)">info</mat-icon>
+          <!-- <mat-icon class="delete-icon" (click)="onDeleteOrderedItem(index)">delete_forever</mat-icon> -->
+          {{orderedItem.weightUnit}} .gr
+          <!-- {{orderedItem.type}} -->
+          {{orderedItem.nameAndPrice.split(',')[0]}}
+        </div>
+        <div class="ordered-item-cost">
+          {{orderedItem.cost | currency: 'EUR'}}
+          <!-- <mat-icon class="edit-icon" (click)="onEditOrderedItem(index)">edit</mat-icon> -->
+        </div>
+      </li>
+    </ul>
+    <hr *ngIf="finalPrice !== 0">
+    <div *ngIf="finalPrice !== 0" class="final-price" fxLayout fxLayoutAlign="space-between">
+      <div class="">
+        Total:
+      </div>
+      <div>
+        {{finalPrice | currency:'EUR'}}
+        <!-- <mat-icon class="invisible-icon edit-icon">edit</mat-icon> -->
+      </div>
+    </div>
+    <hr *ngIf="finalPrice !== 0">
+    <div class="buttons" fxLayout="column" fxLayoutGap="25px" style="width: 100%">
+      <div class="order-buttons" fxLayout fxLayoutAlign="space-between" fxLayoutGap="25px">
+        <button mat-raised-button color="primary" (click)="onAddItems('coffee')">ADD COFFEE</button>
+        <button mat-raised-button color="primary" (click)="onAddItems('tea')">ADD TEA</button>
+      </div>
+
+    </div>
+  </mat-card>
+</section>
+<section>
+
+</section>
+<section
+  *ngIf="!isLoading"
+  class="section"
+  fxLayout
+  fxLayoutAlign="center">
+  <mat-card>
+    <form
+      [formGroup]="orderInfoForm"
+      (ngSubmit)="onSubmitOrderInfoForm()"
+      fxLayout="column">
+
+      <mat-form-field>
+        <input
+          placeholder="NAME"
+          matInput
+          formControlName="clientName"
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          placeholder="PHONE"
+          matInput
+          formControlName="clientPhone"
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          placeholder="EMAIL"
+          matInput
+          formControlName="clientEmail"
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+
+      <div class="date-picker-container" fxLayout>
+        <mat-icon class="datepicker-icon" (click)="picker.open()" matDatepickerToggleIcon>
+          calendar_today
+        </mat-icon>
+
+        <mat-form-field fxFlex>
+          <input
+            matInput [min]="minDate"
+            [max]="maxDate"
+            [matDatepickerFilter]="myDayFilter"
+            [matDatepicker]="picker"
+            placeholder="SELECTEER AFHAALDATUM"
+            formControlName="pickupDate"
+            (dateChange)="dateChanged($event)">
+          <!-- <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>
+              <span class="material-icons datepicker-icon">
+                calendar_today
+              </span></mat-icon>
+          </mat-datepicker-toggle> -->
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+
+      <mat-form-field *ngIf="pickupTimeslots">
+        <mat-label>SELECTEER AFHAALTIJDSTIP</mat-label>
+        <mat-select
+          [(value)]="selectedPickupTimeslot"
+          formControlName="pickupTimeslot"
+          (selectionChange)="timeslotSelected($event)">
+          <mat-option
+            *ngFor="let pickupTimeslot of pickupTimeslots" [value]="pickupTimeslot">
+            {{pickupTimeslot}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox
+        *ngIf="finalPrice > 5"
+        fxLayout
+        fxlayoutAlign="start"
+        formControlName="stamps"
+        (change)="orderInfoFormChanged()"
+        color="primary"><span>Zegels</span>
+      </mat-checkbox>
+      <hr>
+      <div class="buttons" fxLayout fxLayoutGap="25px">
+        <button
+          type="button"
+          (click)="onCancel()"
+          mat-raised-button color="warn">
+          CANCEL
+        </button>
+        <button
+          [disabled]="orderInfoForm.invalid"
+          mat-raised-button
+          color="primary">
+          SEND ORDER
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</section>
+
+
+<!-- <section
+  fxLayout="row" 
+  fxLayoutAlign="center"
+  *ngIf="!waiting">
+  <div class="wrap">
+  
+
+  <mat-card class="order-button-card">
+    <mat-card-actions>
+
+      <button
+        class="order-button"
+        color="primary"
+        mat-raised-button
+        type="button"
+        (click)="orderMore()">
+        VERDER BESTELLEN
+      </button>
+      </mat-card-actions>
+      </mat-card> -->
+
+
+<!-- <mat-card *ngIf="finalOrder.orderedItems.length !== 0">
+    <ul>
+      <li *ngFor="let orderedItem of finalOrder.orderedItems; let i = index">
+        <mat-card>
+        <ul fxLayout="column" fxLayoutAlign="center center">
+          <li>
+            
+            {{orderedItem.item.name | titlecase}}
+            Price: &nbsp;&nbsp;{{orderedItem.item.price | currency:'EUR'}}
+          </li>
+          <ul fxLayout fxLayoutGap="20px">
+            <li *ngIf="orderedItem.capacity">{{orderedItem.capacity === 'ground' ? 'gemalen' : 'bonen'}}</li>
+            <li *ngIf="orderedItem.brewMethod">{{orderedItem.brewMethod === 'filter' ? 'snelfilter' : orderedItem.brewMethod}}</li>
+            <li *ngIf="orderedItem.mill">molen: {{orderedItem.mill === 'gray' ? 'grijs' : 'zwart'}}</li>
+            <li *ngIf="orderedItem.grindSize">{{ orderedItem.grindSize }}</li>
+            <li *ngIf="orderedItem.cost">{{orderedItem.weight}} gr Cost:&nbsp;&nbsp;{{orderedItem.cost | currency:'EUR'}}</li>
+          </ul>
+          <li>
+            <b>{{orderedItem.price | currency:'EUR'}}</b>
+            <div class="buttons" fxLayout fxLayoutGap="25px">
+              <button
+                mat-raised-button
+                color="primary"
+                class="remove-button"
+                (click)="deleteOrderItem(i)">
+                DELETE
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                class="remove-button"
+  
+                (click)="onEditOrderedItem(orderedItem.article, i)">
+                EDIT
+              </button>
+            </div>
+          </li>
+        </ul>
+      </mat-card>
+      </li>
+    </ul>
+  </mat-card>
+
+  <mat-card *ngIf="finalOrder.orderedItems.length !== 0">
+    <div  class="">Af te rekenen: <b> {{ finalPrice | currency:'EUR'}}</b></div>
+  </mat-card>
+  
+  <mat-card *ngIf="finalOrder.orderedItems.length === 0">
+    <div  class="">No orders </div>
+  </mat-card>
+  <mat-card>
+    <form [formGroup]="orderInfoForm" fxLayout="column" fxLayoutAlign="center">
+      <mat-form-field>
+        <input type="text"
+          matInput placeholder="NAAM"
+          formControlName="name"
+          #nameInput
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text"
+          matInput placeholder="EMAIL"
+          formControlName="email"
+          #emailInput
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+      <mat-form-field>
+        <input type="text"
+          matInput placeholder="TELEFOONNUMMER (opt)"
+          formControlName="phone"
+          #phoneInput
+          (change)="orderInfoFormChanged()">
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput [min]="minDate"
+          [max]="maxDate"
+          [matDatepickerFilter]="myDayFilter"
+          [matDatepicker]="picker"
+          placeholder="AFHAALDATUM"
+          formControlName="pickupDate"
+          (dateChange)="orderInfoFormChanged()">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>
+            <span class="material-icons">
+              calendar_today
+            </span></mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>AFHAALTIJDSTIP</mat-label>
+        <mat-select
+          formControlName="pickupTimeslot"
+          (selectionChange)="orderInfoFormChanged()">
+          <mat-option
+            *ngFor="let afhaalMoment of afhaalMomenten" [value]="afhaalMoment">
+            {{afhaalMoment}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox
+        *ngIf="finalPrice > 5"
+        fxLayout
+        fxlayoutAlign="start"
+        formControlName="stamps"
+        (change)="orderInfoFormChanged()"
+        color="primary"><span>Zegels</span>
+      </mat-checkbox>
+
+    </form>
+  </mat-card>
+  <mat-card>
+    <mat-card-actions>     
+         <div class="filler-5"></div>
+         <button
+           mat-raised-button
+           class="order-button"
+           color="primary"
+           type="submit"
+           (click)="sendOrder()"
+           [disabled]="finalOrder.orderedItems.length === 0 || orderInfoForm.invalid">
+           BESTELLING PLAATSEN
+         </button>
+         <div class="filler-5"></div>
+         <button
+           mat-raised-button
+           class="order-button"
+           color="primary"
+           type="button"
+           (click)="onCancelOrder()">
+           CANCEL ORDER
+         </button>
+       </mat-card-actions>
+     </mat-card>
+
+  
+</div>
+</section> -->

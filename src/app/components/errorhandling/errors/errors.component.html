@@ -1,0 +1,23 @@
+<div class="error-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="25px">
+
+  <h4>Unable to access database</h4>
+  <!-- <button mat-raised-button color="primary" (click)="onErrorDetails()">SHOW DETAILS</button> -->
+  <button
+    class="details-button"
+    mat-raised-button color="primary"
+    (click)="onErrorDetails()">
+    {{showDetails ? 'HIDE DETAILS' : 'SHOW DETAILS'}}
+  </button>
+
+  <div *ngIf="showDetails" class="error-details">
+    <ul>
+      <li class="error-message-detail"><span>Message: </span>{{error.message}}</li>
+      <li class="error-message-detail"><span>Name: </span>{{error.name}}</li>
+      <li class="error-message-detail"><span>Ok: </span>{{error.ok}}</li>
+      <li class="error-message-detail"><span>Status: </span>{{error.status}}</li>
+      <li class="error-message-detail"><span>StatusText: </span>{{error.statusText}}</li>
+    </ul>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="onHome()">HOME</button>
+</div>

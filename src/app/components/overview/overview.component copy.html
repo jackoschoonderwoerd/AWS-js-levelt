@@ -1,0 +1,20 @@
+
+<div>
+  <mat-table
+    [dataSource]="dataSource" 
+    matSort >
+
+    <ng-container matColumnDef="pickupDate">
+      <mat-header-cell *matHeaderCellDef> Pickup Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Order.orderInfo.pickupDate | date:'mediumDate'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="newTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header >newTime</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.newTime}} </mat-cell>>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

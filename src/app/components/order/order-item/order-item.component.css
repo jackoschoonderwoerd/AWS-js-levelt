@@ -1,0 +1,26 @@
+.section {
+  outline: 1px solid red;
+
+}
+.order-form {
+  /* min-width: 350px; */
+}
+.button {
+  /* border: 1px solid green; */
+}
+.cancel-button {
+  width: 30%
+}
+.add-button {
+  width: 60%
+}
+.capacity, .brew-method-or-mill {
+  border-bottom: 1px solid #ccc;
+}
+
+
+.item-cost {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /* border: 1px solid orange; */
+}

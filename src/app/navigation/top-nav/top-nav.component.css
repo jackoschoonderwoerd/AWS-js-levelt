@@ -1,0 +1,130 @@
+/* ============== plus-0rem ================== */
+
+/* .bedrijfsnaam {
+  text-decoration: none;
+  color: black;
+} */
+
+.main-header {
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: blue;
+    padding: 0.5rem 1rem;
+    z-index: 60;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    /* along the horizontal axis */
+    align-items: center;
+    /* between the logo and the list */
+    justify-content: space-between;
+  }
+  
+  /* .mobileNavStatus {
+    display: flex;
+  } */
+
+  header > ul > li {
+    float: left;
+  }
+  
+  .fas {
+    font-size: 1.5rem;
+  }
+  
+  .main-nav {
+    display: none;
+  }
+  
+  .main-nav__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* display: flex; */
+  }
+  
+  .main-nav__item {
+    margin: 0px 0.8rem;
+  }
+  
+  .main-nav__item a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding-bottom: 0.2rem 0;
+    width: 300px;
+  }
+  
+  .main-nav__item a:active,
+  .main-nav__item a:hover {
+    color: white;
+    border-bottom: 3px solid white
+  }
+  a {
+    text-decoration: none;
+  }
+  a:hover, a:active {
+    color: black;
+  }
+  
+  
+  /* ========TOGGLE BUTTON========== */
+  
+  .fa-bars {
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 2rem;
+  }
+  
+  .fa-bars:hover,
+  .fa-bars:active {
+    color: #ccc;
+  }
+
+  /* ========= shopping-basket ============ */
+  
+  .shopping-basket {
+    display: inline;
+  }
+  
+  /* ============= plus-20rem =================== */
+  
+  @media(min-width: 25rem){
+    .main-nav__item a {
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* ============= plus-40rem =================== */
+  
+  @media(min-width: 40rem){
+  
+    .main-nav {
+      /* flex within flex */
+      display: flex;
+    }
+    .main-nav__item {
+      display: inline-block;
+    }
+    .main-header {
+      height: 4rem;
+    }
+    .fa-bars {
+      display: none;
+    }
+    /* .bedrijfsnaam a {
+      font-size: 1rem;
+      color: red;
+    } */
+    .main-nav__item a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      padding-bottom: 0.2rem 0;
+      width: 300px;
+    }
+  }
+  

@@ -1,0 +1,51 @@
+
+<h4>Ordered Item Info</h4>
+<div>
+  <ul  class="order-properties">
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>TYPE:</span><span>{{data.orderedItem.type}}</span>  
+    </li>
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>NAME:</span><span> {{data.orderedItem.nameAndPrice.split(',')[0].trim()}}</span>
+    </li>
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>PRICE:</span><span>{{data.orderedItem.nameAndPrice.split(',')[1].trim()}}</span>
+    </li>
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>AMOUNT ORDERED:</span><span>{{data.orderedItem.weightUnit}} gr.</span>
+    </li>
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>CAPACITY:</span><span>{{data.orderedItem.capacity}}</span>
+
+    </li>
+    <!-- <li fxLayout fxLayoutAlign="space-between" *ngIf="data.orderedItem.brewMethodOrMill">
+      <span>BREWMETHOD OR MILL:</span><span> {{data.orderedItem.brewMethodOrMill}}</span>
+    </li> -->
+    <li fxLayout fxLayoutAlign="space-between" *ngIf="data.orderedItem.brewMethod">
+      <span>BREWMETHOD:</span><span>{{data.orderedItem.brewMethod}}</span>
+    </li>
+    <li fxLayout fxLayoutAlign="space-between" *ngIf="data.orderedItem.mill">
+      <span>MILL COLOR:</span><span>{{data.orderedItem.mill}}</span>
+
+    </li>
+    <li fxLayout fxLayoutAlign="space-between" *ngIf="data.orderedItem.grindSize">
+      <span>GRINDSIZE:</span><span>{{data.orderedItem.grindSize}}</span>
+
+    </li>
+    <li fxLayout fxLayoutAlign="space-between">
+      <span>ORDER ITEM COST:</span><span>{{data.orderedItem.cost | currency:"EUR"}}</span>
+    </li>
+  </ul>
+</div>
+<div
+  class=""
+  fxLayout="column"
+  fxLayoutGap="25px">
+  <div class="edit-delete-buttons" fxLayout fxLayoutAlign="space-between">
+    <button class="delete-button" mat-raised-button color="primary" (click)="onDelete()">DELETE</button>
+    <button class="edit-button" mat-raised-button color="primary" (click)="onEdit()">EDIT</button>
+  </div>
+  <div>
+    <button class="close-button" mat-raised-button color="primary" (click)="onClose()">CLOSE</button>
+  </div>
+</div>

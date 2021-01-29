@@ -1,0 +1,74 @@
+<div class="sidenav">
+    <!-- <nav
+      [ngClass]="{ 'mobile-nav-open': mobileNavStatus }"
+      class="mobile-nav-closed">
+      <p (click)="toggle()" class="mobile-nav__item"><a [routerLink]="['home']">HOME</a></p>
+      <p (click)="toggle()" class="mobile-nav__item"><a [routerLink]="['coffee']">KOFFIE</a></p>
+      <p (click)="toggle()" class="mobile-nav__item"><a [routerLink]="['tea']">THEE</a></p>
+      <p (click)="toggle()" class="mobile-nav__item"><a [routerLink]="['test']">TEST</a></p>
+    </nav> -->
+    <nav
+    [ngClass]="{ 'mobile-nav-open': mobileNavStatus }"
+    class="mobile-nav-closed">
+    <button
+      *ngIf="!loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['home']">HOME</a>
+    </button>
+    <button
+      *ngIf="!loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['coffee']">KOFFIE</a>
+    </button>
+    <button
+      *ngIf="!loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['tea']">THEE</a>
+    </button>
+    <button
+    *ngIf="!loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['order']">ORDER</a>
+    </button>
+    <button
+      *ngIf="!loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['overview']">ADMIN</a>
+    </button>
+    <button
+    *ngIf="loginStatus"
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a (click)="onLogOut()">LOG OUT</a>
+    </button>
+    <!-- <button
+      (click)="toggle()"
+      mat-raised-button
+      color="primary">
+      <a [routerLink]="['test']">TEST</a>
+    </button> -->
+    <div
+      class="close"
+      (click)="toggle()">
+      <i class="fas fa-times"></i>
+    </div>
+    
+  </nav>
+  </div>
+  
+  
+  
+  
+  
+  

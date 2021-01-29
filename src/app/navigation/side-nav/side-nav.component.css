@@ -1,0 +1,74 @@
+/* ============== plus-0rem ================== */
+
+nav {
+  padding: 1rem;
+}
+
+nav p {
+  padding: 1rem;
+  border: 2px solid #bababa;
+  margin: .5rem;
+}
+
+a {
+  text-decoration: none;
+  display: flex;
+  color: white;
+  /* font-size: 3rem; */
+}
+
+a:hover {
+  color: black;
+}
+
+
+.mobile-nav-closed {
+  display: inline-block;
+  transform: translateX(-100%);
+  transition: transform 300ms;
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  background: white;
+  width: 80%;
+  height: 100vh;
+}
+
+
+.mobile-nav-open {
+  transform: translateX(0) !important;
+  background: #e3e3e3;
+  overflow: auto;
+}
+
+
+
+p {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+button {
+  width: 100%;
+  font-size: 2rem;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.filler-20 {
+  height: 20px;
+}
+
+.close {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+/* ============= plus-40rem =================== */
+
+@media(min-width: 40px) {
+  p {}
+}
