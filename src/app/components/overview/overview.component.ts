@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
-  templateUrl: './overview.component.html',
+  // templateUrl: './overview.component.html',
+  templateUrl: './overview.component copy.html',
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
@@ -22,13 +23,17 @@ export class OverviewComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-    'name',
 
     'pickupDate',
-    'newTime',
+    'extractedTime'
+
+    // 'name',
+    // 'extractedTime',
+    // 'orderId',
+    // 'pickupDate',
     
-    'orders',
-    'price',
+    // 'orders',
+    // 'price',
     // 'stamps',
     // 'phone',
   ];
@@ -58,16 +63,18 @@ y
       console.log(this.orders);
       console.log(orders.length);
       for (let i = 0; i < orders.length; i++) {
-        // orders[i].newTime = orders[i].Order.orderInfo.pickupDate.toString();
-        orders[i].extractedTimeslot = orders[i].Order.orderInfo.pickupTimeslot;
+        console.log(typeof(orders[i].orderId))
+        console.log(typeof(orders[i].Order.orderInfo.pickupTimeslot))
+        
+        // orders[i].extractedTimeslot = orders[i].Order.orderInfo.pickupTimeslot;
+        // orders[i].extractedTimeslot = i.toString();
         orders[i].extractedPickupDate = orders[i].Order.orderInfo.pickupDate;
       }
-      console.log(orders);
-      
-      
-      // this.dataSource = this.orders;
-      this.dataSource = new MatTableDataSource(orders)
-      this.dataSource.sort = this.sort;
+      setTimeout(() => {
+
+        this.dataSource = new MatTableDataSource(orders)
+        this.dataSource.sort = this.sort;
+      }, 1000);
     });
 
     

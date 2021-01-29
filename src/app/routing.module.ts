@@ -6,6 +6,8 @@ import { HomeComponent } from './components/home/home.component';
 import { OrderItemComponent } from './components/order/order-item/order-item.component';
 import { OrderComponent } from './components/order/order.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { TableSortingExampleComponent } from './components/tests/table-sorting-example/table-sorting-example.component';
+
 
 
 
@@ -19,6 +21,7 @@ const routes: Routes = [
   { path: 'admin', component: OverviewComponent },
   { path: 'error', component: ErrorsComponent },
   { path: 'order-item', component: OrderItemComponent },
+  { path: 'table-sorting-example', component: TableSortingExampleComponent },
   { path: '**', component: HomeComponent }
 ]
 

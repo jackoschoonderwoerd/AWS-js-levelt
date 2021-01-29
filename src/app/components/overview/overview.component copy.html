@@ -9,9 +9,9 @@
       <mat-cell *matCellDef="let element"> {{element.Order.orderInfo.pickupDate | date:'mediumDate'}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="newTime">
+    <ng-container matColumnDef="extractedTime">
       <mat-header-cell *matHeaderCellDef mat-sort-header >newTime</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.newTime}} </mat-cell>>
+      <mat-cell *matCellDef="let element"> {{element.extractedPickupTime}} </mat-cell>>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

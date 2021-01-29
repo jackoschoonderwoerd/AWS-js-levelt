@@ -127,8 +127,10 @@ export class OrderService {
   
   
   postFinalOrder() {
+    console.log(this.finalOrder);
     this.orderedItems = [];
-    // this.clearLocalStorage();
+    
+    this.finalOrder.orderInfo.pickupDate = this.compensateDaylightSavingTime(this.finalOrder.orderInfo.pickupDate)
     return this.http.post('https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt', this.finalOrder);
   }
 
@@ -139,5 +141,10 @@ export class OrderService {
 
   private clearLocalStorage() {
     localStorage.removeItem('finalOrder');
+  }
+  private compensateDaylightSavingTime (date: Date) {
+    const timestamp = new Date(date).getTime();
+    const correctedTimestamp = timestamp + 60 * 60 * 1000
+    return new Date(correctedTimestamp)
   }
 }

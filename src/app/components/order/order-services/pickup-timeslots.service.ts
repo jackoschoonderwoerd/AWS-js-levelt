@@ -26,7 +26,7 @@ export class PickupTimeslotsService {
   firstTimeslotStartHour: number = 10;
   firstTimeslotStartMinute: number = 0;
 
-  lastTimeslotStartHour: number = 22
+  lastTimeslotStartHour: number = 24
   lastTimselotStartMinute: number = 0;
 
   timeslotDurationInMilliseconds: number = 60 * 60 * 1000;
@@ -82,7 +82,10 @@ export class PickupTimeslotsService {
     filteredStampSlots.forEach((slot: number[]) => {
       filteredStringSlots.push(
         new Date(slot[0]).toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'}) + ' - ' +
-        new Date(slot[1]).toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'}))
+        new Date(slot[1]).toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'})
+        // new Date(slot[0]).toLocaleTimeString(navigator.language, {hour: '2-digit', minute: '2-digit'})
+        
+      )
     });
     if(filteredStringSlots.length < this.maxLength) {
       filteredStringSlots.unshift('haast?, bel [ADD PHONE NUMBER]');

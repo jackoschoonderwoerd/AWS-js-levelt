@@ -56,4 +56,7 @@ export class TopNavComponent implements OnInit {
   routeSelected(selectedRoute) {
     this.router.navigate([selectedRoute]);
   }
+  tableSortingExample() {
+    this.router.navigate(['table-sorting-example']);
+  }
 }

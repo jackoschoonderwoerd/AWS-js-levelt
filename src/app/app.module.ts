@@ -41,6 +41,8 @@ import { OrderItemComponent } from './components/order/order-item/order-item.com
 import { RoutingModule } from './routing.module';
 import { OrderitemInfoDialogComponent } from './components/order/dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
 import { CancelOrderDialogComponent } from './components/order/dialogs/cancel-order-dialog/cancel-order-dialog.component';
+import { TableSortingExampleComponent } from './components/tests/table-sorting-example/table-sorting-example.component';
+
 
 
 
@@ -76,6 +78,8 @@ const appRoutes: Routes = [
     OrderItemComponent,
     OrderitemInfoDialogComponent,
     CancelOrderDialogComponent,
+    TableSortingExampleComponent,
+    
     
     
     

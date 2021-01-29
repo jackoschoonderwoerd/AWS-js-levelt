@@ -9,6 +9,7 @@ export class FinalOrder {
       public orderInfo: OrderInfo,
       public orderedItems: OrderedItem[],
       public finalPrice: number,
-      public extractedTimeslot?: string
+      public extractedTimeslot?: string,
+      public extractedPickupDate?: Date
     ) {  }
   }
