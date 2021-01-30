@@ -24,21 +24,9 @@ ul {
     list-style: none;
     padding: 0px;
 }
-.h-filler-20 {
-    width: 20px;
-}
-.v-filler-5 {
-    height: 5px;
-}
-.v-filler-10 {
-    height: 10px;
-}
-.v-filler-20 {
-    height: 20px;
-}
-button {
-    margin-bottom: 20px;
-}
+
+
+
 .bestelling-is-verzonden {
     margin-bottom: 20px;
 }

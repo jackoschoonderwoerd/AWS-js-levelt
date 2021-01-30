@@ -36,11 +36,12 @@ export class TableSortingExampleComponent implements OnInit {
     // 'position',
     // 'name',
     'orderInfo',
-    'orderId',
+    // 'orderId',
+    'selectedPickupDate',
     'pickupTime',
     // 'pickupDate',
-    'selectedPickupDate',
-    'orders'
+    'orders',
+    'finalPrice'
     // 'email',
     // 'street'
     // 'weight', 

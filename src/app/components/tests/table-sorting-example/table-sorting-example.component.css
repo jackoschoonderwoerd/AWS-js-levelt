@@ -2,10 +2,31 @@ table {
   width: 100%;
 }
 
-th.mat-sort-header-sorted {
-  color: black;
-}
 .date-selector {
   margin-left: 25px;
 }
 
+th,td {
+  border: 1px solid #CCC;
+  padding-left: 6px;
+}
+
+.padding-left {
+  padding-left: 6px;
+}
+
+th.mat-header-cell {
+  padding-left: 6px;
+}
+.table-header {
+  font-size: 14px;
+  font-weight: normal;
+  background-color: aquamarine;
+}
+.final-price {
+  text-align: right;
+}
+.table-cell-mill {
+  padding-left: 0px;
+  text-align: center;
+}

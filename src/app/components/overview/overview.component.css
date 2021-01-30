@@ -44,12 +44,13 @@ td,
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 
-th, .header-cell-order {
+/* th, .header-cell-order {
   background-color: #ededed;
   color: black;
   font-weight: normal;
   border: 1px solid white;
-}
+} */
+
 .header-cell-order {
   height: 60px;
 }
