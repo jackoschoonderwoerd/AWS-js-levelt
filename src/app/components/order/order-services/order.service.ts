@@ -66,7 +66,7 @@ export class OrderService {
       this.finalOrder.orderedItems.push(orderedItem);
     } else {
       this.finalOrder = new FinalOrder(
-          new OrderInfo(null, null, null, null, true, null),
+          new OrderInfo(null, null, null, null, null, true, null),
           [orderedItem],
           0
         );
@@ -127,6 +127,7 @@ export class OrderService {
   
   
   postFinalOrder() {
+    this.finalOrder.orderInfo.pickupDate = new Date(this.finalOrder.orderInfo.pickupDate).getTime(); 
     console.log(this.finalOrder);
     this.orderedItems = [];
     
@@ -142,9 +143,9 @@ export class OrderService {
   private clearLocalStorage() {
     localStorage.removeItem('finalOrder');
   }
-  private compensateDaylightSavingTime (date: Date) {
+  private compensateDaylightSavingTime (date: number) {
     const timestamp = new Date(date).getTime();
     const correctedTimestamp = timestamp + 60 * 60 * 1000
-    return new Date(correctedTimestamp)
+    return correctedTimestamp
   }
 }

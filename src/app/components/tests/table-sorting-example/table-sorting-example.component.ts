@@ -31,13 +31,16 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./table-sorting-example.component.css'],
   templateUrl: './table-sorting-example.component.html',
 })
-export class TableSortingExampleComponent implements OnInit, AfterViewInit {
+export class TableSortingExampleComponent implements OnInit {
   displayedColumns: string[] = [
     // 'position',
     // 'name',
     'orderInfo',
     'orderId',
-    'pickupTime'
+    'pickupTime',
+    // 'pickupDate',
+    'selectedPickupDate',
+    'orders'
     // 'email',
     // 'street'
     // 'weight', 
@@ -48,6 +51,8 @@ export class TableSortingExampleComponent implements OnInit, AfterViewInit {
   users;
   data;
   dataSource;
+  selectedDefaultValue: number = new Date().setHours(1,0,0,0);
+  dateTimestamps: number[] = [];
   
 
   @ViewChild(MatSort) sort: MatSort;
@@ -59,6 +64,7 @@ export class TableSortingExampleComponent implements OnInit, AfterViewInit {
     
 
   ngOnInit() {
+    this.setDateTimestamps()
     this.http.get("https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt").subscribe(data =>  {
     // this.http.get("https://jsonplaceholder.typicode.com/users").subscribe(data =>  {
       this.data = data;
@@ -66,10 +72,23 @@ export class TableSortingExampleComponent implements OnInit, AfterViewInit {
       console.log(this.data.Items[0].orderId)
       this.dataSource = new MatTableDataSource(this.data.Items)
       this.dataSource.sort = this.sort;
+      this.doFilter(this.selectedDefaultValue.toString());
     });
-    
   }
 
-  ngAfterViewInit() {
+
+
+  doFilter(filtervalue: string) {
+    console.log(filtervalue);
+    this.dataSource.filter = filtervalue.toString().trim().toLowerCase();
+  }
+  private setDateTimestamps() {
+    const today = new Date();
+    const tenDaysAgo = new Date(today.setDate(today.getDate() -5));
+    for (let i = 0; i < 10; i++) {
+      this.dateTimestamps.push(new Date(tenDaysAgo.setDate(tenDaysAgo.getDate() + 1)).setHours(1,0,0,0))
+      // this.dateTimestamps.push(new Date(tenDaysAgo.setDate(tenDaysAgo.getDate() + 1)));
+    }
+    console.log(this.dateTimestamps);
   }
 }

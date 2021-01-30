@@ -1,4 +1,25 @@
-<p>table-sorting-example works!</p>
+
+
+<mat-form-field class="date-selector">
+  <mat-label>SELECT DATE</mat-label>
+  <mat-select
+    [value]="selectedDefaultValue"
+    (selectionChange)="doFilter($event.value)">
+    <mat-option *ngFor="let dateTimestamp of dateTimestamps" [value]="dateTimestamp">
+      {{dateTimestamp | date:"medium"}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- <mat-form-field class="date-selector">
+  <mat-label>SELECT DATE</mat-label>
+  <mat-select
+    (selectionChange)="doFilter($event.value)">
+    <mat-option *ngFor="let dateTimestamp of dateTimestamps" [value]="dateTimestamp">
+      {{dateTimestamp | date:"medium"}}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -25,6 +46,48 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header> PickupTime </th>
     <td mat-cell *matCellDef="let element"> {{element.pickupTime}} </td>
   </ng-container>
+<!-- 
+  <ng-container matColumnDef="pickupDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> PickupDate </th>
+    <td mat-cell *matCellDef="let element"> {{element.pickupDate | date:"medium"}} </td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="selectedPickupDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Selected PickupDate </th>
+    <td mat-cell *matCellDef="let element"> {{element.selectedPickupDate | date:"medium"}} </td>
+    <!-- <td mat-cell *matCellDef="let element"> {{element.pickupDate}} </td> -->
+  </ng-container>
+
+  <div class="order-container">
+    <ng-container matColumnDef="orders">
+      <mat-header-cell class="header-cell-order" *matHeaderCellDef>Orders</mat-header-cell>
+      <mat-cell class="cell-order" *matCellDef="let element">
+        <table
+          id="myTable" 
+          class="order-table"
+          style="border: 1px solid green; width: 100%">
+          <tr>
+            <th class="table-header table-header-article">TYPE</th>
+            <th class="table-header table-header-name">NAME</th>
+            <th class="table-header table-header-weight">WGT.</th>
+            <th class="table-header table-header-capacity">CAP.</th>
+            <th class="table-header table-header-brew">BREW</th>
+            <th class="table-header table-header-mill">MILL</th>
+            <th class="table-header table-header-mill">GRIND</th>
+          </tr>
+          <tr *ngFor="let order of element.orderedItems">
+            <td class="table-cell-article">{{order.type | titlecase}}</td>
+            <td class="table-cell-name">{{order.nameAndPrice | titlecase}}</td>
+            <td class="table-cell-weight">{{order.weightUnit | number }} gr.</td>
+            <td class="table-cell-capacity">{{order.capacity | titlecase}}</td>
+            <td class="table-cell-brew">{{order.brewMethod | titlecase}}</td>
+            <td class="table-cell-mill">{{order.mill | titlecase}}</td>
+            <td class="table-cell-mill">{{order.grindSize}}</td>
+          </tr>
+        </table>
+      </mat-cell>
+    </ng-container>
+  </div>
 
   <!-- <ng-container matColumnDef="street">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Street </th>

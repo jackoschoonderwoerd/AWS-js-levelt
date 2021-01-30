@@ -35,6 +35,7 @@ export class OrderComponent implements OnInit {
   isLoading = false;
   finalOrder: FinalOrder;
   pickupTimeslots;
+  selectablePickupDates = [];
 
   now: string = new Date().toString();
 
@@ -49,7 +50,7 @@ export class OrderComponent implements OnInit {
       
     }
   ngOnInit(): void {
-    
+    this.createSelectablePickupDates();
     this.orderService.finalOrderSubject.subscribe((finalOrder: FinalOrder) => {
       this.finalOrder = finalOrder;
     });
@@ -93,10 +94,13 @@ export class OrderComponent implements OnInit {
     this.orderService.updateOrderInfo(this.orderInfoForm.value)
   }
   dateChanged(event) {
+    this.orderInfoForm.patchValue({
+      pickupTimeslot: null
+    })
     this.selectedPickupTimeslot = null;
-    console.log(this.pickupTimeslots)
     this.orderInfoFormChanged()
     this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(event.value));
+    console.log(this.pickupTimeslots);
     this.finalOrder.orderInfo.pickupTimeslot = null;
     this.orderService.updateOrderInfo(this.orderInfoForm.value);
     console.log(this.selectedPickupTimeslot);
@@ -111,7 +115,8 @@ export class OrderComponent implements OnInit {
     this.orderInfoForm = this.fb.group({
       clientName: new FormControl(null, [Validators.required]),
       clientPhone: new FormControl(null, [Validators.required]),
-      pickupDate: new FormControl(undefined, [Validators.required]),
+      // pickupDate: new FormControl(undefined, [Validators.required]),
+      selectedPickupDate: new FormControl(undefined, [Validators.required]),
       pickupTimeslot: new FormControl(null, [Validators.required]),
       clientEmail: new FormControl(null, [Validators.required]),
       stamps: new FormControl(null, [Validators.required])
@@ -124,7 +129,8 @@ export class OrderComponent implements OnInit {
       this.orderInfoForm.setValue({
         clientName: this.finalOrder.orderInfo.clientName,
         clientEmail: this.finalOrder.orderInfo.clientEmail,
-        pickupDate: this.finalOrder.orderInfo.pickupDate,
+        // pickupDate: this.finalOrder.orderInfo.pickupDate,
+        selectedPickupDate: this.finalOrder.orderInfo.selectedPickupDate,
         pickupTimeslot: this.finalOrder.orderInfo.pickupTimeslot,
         clientPhone: this.finalOrder.orderInfo.clientPhone,
         stamps: this.finalOrder.orderInfo.stamps
@@ -133,7 +139,7 @@ export class OrderComponent implements OnInit {
         // stamps: this.finalOrder.orderInfo.stamps
       });
       this.orderInfoForm.updateValueAndValidity();
-      this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.pickupDate))
+      this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate))
     } 
   }
 
@@ -210,6 +216,28 @@ export class OrderComponent implements OnInit {
       if(response === 'wis') {
         this.clearOrder()
       }  
+    })
+  }
+
+  createSelectablePickupDates() {
+    const today = new Date(new Date().setHours(0,0,0,0));
+    const todayDate = today.getDate()
+    // const startDate = new Date(today.setDate(today.getDate() -5));
+    this.selectablePickupDates = [];
+    for (let i = 0; i <= 6; i++) {
+      // this.selectablePickupDates.push(new Date().setHours(1,0,0,0))
+      this.selectablePickupDates.push(new Date(today).setDate(todayDate + i));
+    }
+    
+    this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
+      return new Date(date).getDay() !== 0;
+    });
+    this.selectablePickupDates = this.selectablePickupDates.map((date: number) => {
+      return new Date(date).setHours(1,0,0,0);
+    });
+
+    this.selectablePickupDates.forEach(date => {
+      console.log(new Date(date));
     })
   }
 }

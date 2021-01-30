@@ -82,11 +82,10 @@
           (change)="orderInfoFormChanged()">
       </mat-form-field>
 
-      <div class="date-picker-container" fxLayout>
+      <!-- <div class="date-picker-container" fxLayout>
         <mat-icon class="datepicker-icon" (click)="picker.open()" matDatepickerToggleIcon>
           calendar_today
         </mat-icon>
-
         <mat-form-field fxFlex>
           <input
             matInput [min]="minDate"
@@ -96,15 +95,22 @@
             placeholder="SELECTEER AFHAALDATUM"
             formControlName="pickupDate"
             (dateChange)="dateChanged($event)">
-          <!-- <mat-datepicker-toggle matSuffix [for]="picker">
-            <mat-icon matDatepickerToggleIcon>
-              <span class="material-icons datepicker-icon">
-                calendar_today
-              </span></mat-icon>
-          </mat-datepicker-toggle> -->
+          
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-      </div>
+      </div> -->
+
+      <mat-form-field *ngIf="pickupTimeslots">
+        <mat-label>SELECTEER AFHAALDATUM</mat-label>
+        <mat-select
+          formControlName="selectedPickupDate"
+          (selectionChange)="dateChanged($event)">
+          <mat-option
+            *ngFor="let selectablePickupDate of selectablePickupDates" [value]="selectablePickupDate">
+            {{selectablePickupDate | date:"medium"}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
 

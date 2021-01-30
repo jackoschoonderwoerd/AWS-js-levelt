@@ -25,7 +25,7 @@ export class OverviewComponent implements OnInit {
   displayedColumns: string[] = [
 
     'pickupDate',
-    'extractedTime'
+    'extractedTime',
 
     // 'name',
     // 'extractedTime',
