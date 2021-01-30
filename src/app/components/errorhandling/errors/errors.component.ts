@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { OverviewService } from '../../overview/overview.service';
+
+
 
 @Component({
   selector: 'app-errors',
@@ -15,7 +15,6 @@ export class ErrorsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private overviewService: OverviewService  
   ) 
   {
     // if(this.router.getCurrentNavigation().extras.state.error) {
@@ -31,7 +30,7 @@ export class ErrorsComponent implements OnInit {
     this.showDetails = !this.showDetails;
   }
   onHome() {
-    this.overviewService.loginStatusChanged.emit(false);
+
     this.router.navigate(['/home']);
   }
 }

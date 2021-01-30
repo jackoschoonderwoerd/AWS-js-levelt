@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatSortModule } from '@angular/material/sort';
 
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule ({
     imports: [
@@ -30,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatTableModule,
         MatSortModule,
         MatIconModule,
+        MatPaginatorModule,
         
 
     ],
@@ -47,6 +49,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatTableModule,
         MatSortModule,
         MatIconModule,
+        MatPaginatorModule,
 
         
     ]

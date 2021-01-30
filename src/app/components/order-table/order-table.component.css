@@ -1,8 +1,23 @@
 table {
   width: 100%;
 }
+.order-table-header {
+  padding-left: 25px;
+  padding-right: 25px;
+  border: 1px solid orange;
+}
+.order-table-header-buttons {
+  padding: 5px 0;
+  border: 1px solid green;
+  height: 100%;
+}
+
+button {
+  height: 100%
+}
 
 .date-selector {
+  margin-top: 15px;;
   margin-left: 25px;
 }
 

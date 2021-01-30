@@ -12,41 +12,19 @@
           (click)="routeSelected('/order')"><i class="fas fa-shopping-basket"></i></a>
       </li>
     </ul>
-    <!-- <a [routerLink]="['home']" class="main-header__brand">
-      <img class="main-header__logo" src="/src/app/assets/images/groevietjoens/logo.png" alt="S&B" />
-    </a> -->
     <nav class="main-nav">
       <ul class="main-nav__items">
-        <!-- <li class="main-nav__item">
-          <a [routerLink]="['home']">Home</a>
-        </li> -->
-        <li *ngIf="loginStatus" class="main-nav__item">
-          <a>Logged in as {{username}}</a>
-        </li>
+
         <li *ngIf="!loginStatus" class="main-nav__item">
           <a (click)="articleSelected('coffee')">COFFEE</a>
         </li>
+        <li *ngIf="!loginStatus" class="main-nav__item">
+          <a (click)="articleSelected('tea')">TEA</a>
+        </li>
         <li class="main-nav__item">
-          <a (click)="tableSortingExample()">TABLE SORTING</a>
+          <a (click)="onOrderTable()">ORDER TABLE</a>
         </li>
-        <li *ngIf="!loginStatus" class="main-nav__item">
-          <a (click)="articleSelected('tea')">THEE</a>
-        </li>
-        <li *ngIf="!loginStatus" class="main-nav__item">
-          <!-- <a [routerLink]="['overview']">ADMIN</a> -->
-          <a (click)="routeSelected('/admin')">ADMIN</a>
-        </li>
-        <li *ngIf="loginStatus" class="main-nav__item">
-          <a  (click)="onLogOut()">LOG OUT</a>
-        </li>
-        <!-- <li *ngIf="!loginStatus" class="main-nav__item">
-          <a [routerLink]="['test']">TEST</a>
-        </li>
-        <li *ngIf="!loginStatus" class="main-nav__item">
-          <a [routerLink]="['test2']">TEST2</a>
-        </li> -->
       </ul>
-      
     </nav>
   </header>
   
