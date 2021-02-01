@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/components/auth/auth.service';
 
 
 @Component({
@@ -14,18 +15,17 @@ export class SideNavComponent implements OnInit {
 
   loginStatus: boolean = false;
   username: string = '';
+  isLoggedIn: boolean = false;
 
   constructor(
-
-    
     private router: Router,
-    
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-
-
-
+    this.authService.loginSubscription.subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn
+    })
   }
 
   toggle() {
@@ -33,6 +33,6 @@ export class SideNavComponent implements OnInit {
     this.mobileNavStatus = !this.mobileNavStatus;
   }
   onLogOut() {
-
+    console.log('logging out');
   }
 }

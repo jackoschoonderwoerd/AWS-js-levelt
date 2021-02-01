@@ -39,6 +39,7 @@ export class OrderService {
       this.finalOrder.orderInfo = orderInfoForm
     } else {
       this.finalOrder = new FinalOrder (
+        '',
         orderInfoForm,
         [],
         0
@@ -66,6 +67,7 @@ export class OrderService {
       this.finalOrder.orderedItems.push(orderedItem);
     } else {
       this.finalOrder = new FinalOrder(
+          '',
           new OrderInfo(null, null, null, null, null, true, null),
           [orderedItem],
           0

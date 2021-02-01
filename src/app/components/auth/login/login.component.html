@@ -1,0 +1,32 @@
+<section
+  fxLayout
+  fxLayoutAlign="center">
+  <mat-card>
+    <form
+      class="login-form"
+      [formGroup]="loginForm"
+      fxLayout="column"
+      (ngSubmit)="onLogin()">
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          formControlName="name"
+          placeholder="NAME">
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          formControlName="password"
+          placeholder="PASSWORD">
+      </mat-form-field>
+      <button
+        [disabled]="loginForm.invalid"
+        mat-raised-button
+        color="primary">
+        LOGIN
+      </button>
+    </form>
+  </mat-card>
+</section>

@@ -6,6 +6,7 @@ import { OrderedItem } from './ordered-item.model';
 export class FinalOrder {
 
     constructor(
+      public orderId,
       public orderInfo: OrderInfo,
       public orderedItems: OrderedItem[],
       public finalPrice: number,

@@ -1,28 +1,32 @@
 <header class="main-header" color="primary">
     <i class="fas fa-3x fa-bars" (click)="onToggleSideNav()"></i>
     <ul class="main-nav__items">
-      <li *ngIf="!loginStatus" class="main-nav__item">
+      <li class="main-nav__item">
         <a class="bedrijfsnaam"
           (click)="routeSelected('/home')" routerLinkActive="router-link-active" >
           JS-LEVELT
         </a>
       </li>
-      <li *ngIf="!loginStatus" class="main-nav__item">
-        <a
-          (click)="routeSelected('/order')"><i class="fas fa-shopping-basket"></i></a>
+      <li class="main-nav__item">
+        <a (click)="routeSelected('/order')"><i class="fas fa-shopping-basket"></i></a>
       </li>
     </ul>
     <nav class="main-nav">
       <ul class="main-nav__items">
-
-        <li *ngIf="!loginStatus" class="main-nav__item">
+        <li class="main-nav__item">
           <a (click)="articleSelected('coffee')">COFFEE</a>
         </li>
-        <li *ngIf="!loginStatus" class="main-nav__item">
+        <li class="main-nav__item">
           <a (click)="articleSelected('tea')">TEA</a>
         </li>
-        <li class="main-nav__item">
+        <li *ngIf="isLoggedIn" class="main-nav__item">
           <a (click)="onOrderTable()">ORDER TABLE</a>
+        </li>
+        <li *ngIf="!isLoggedIn" class="main-nav__item">
+          <a routerLink="/login">LOG IN</a>
+        </li>
+        <li (click)="onLogOut()" *ngIf="isLoggedIn" class="main-nav__item">
+          <a>LOG OUT</a>
         </li>
       </ul>
     </nav>

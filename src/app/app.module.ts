@@ -42,6 +42,10 @@ import { RoutingModule } from './routing.module';
 import { OrderitemInfoDialogComponent } from './components/order/dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
 import { CancelOrderDialogComponent } from './components/order/dialogs/cancel-order-dialog/cancel-order-dialog.component';
 import { OrderTableComponent } from './components/order-table/order-table.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { SingleOrderComponent } from './components/order-table/single-order/single-order.component';
+
+
 
 
 
@@ -70,6 +74,10 @@ import { OrderTableComponent } from './components/order-table/order-table.compon
     OrderitemInfoDialogComponent,
     CancelOrderDialogComponent,
     OrderTableComponent,
+    LoginComponent,
+    SingleOrderComponent,
+    
+    
     
     
     

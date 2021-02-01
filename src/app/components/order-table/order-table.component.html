@@ -1,13 +1,25 @@
 <div
   class="order-table-header"
   fxLayout="row"
-  fxLayoutAlign="space-between">
+  fxLayoutAlign="space-between center center">
   <div 
     class="order-table-header-buttons"
     fxLayout="row"
     fxLayoutGap="25px">
-    <button mat-raised-button color="primary" type="button">PRINT ODERS</button>
-    <button mat-raised-button color="primary" type="button">RELOAD</button>
+    <button
+      mat-raised-button 
+      color="primary" 
+      type="button"
+      (click)="onPrintOrders()">
+      PRINT ODERS
+    </button>
+    <button
+      mat-raised-button 
+      color="primary" 
+      type="button"
+      (click)="onReload()">
+      RELOAD
+    </button>
   </div>
   <mat-form-field class="date-selector">
     <mat-label>SELECT DATE</mat-label>
@@ -85,6 +97,13 @@
       </td>
     </ng-container>
   </div>
+ 
+  <ng-container matColumnDef="print">
+    <th class="header-cell-pickupTime centre" mat-header-cell *matHeaderCellDef> PickupTime </th>
+    <td class="padding-left" mat-cell *matCellDef="let element">
+      <button type="button" (click)="onPrintElement(element)">PRINT</button>
+    </td>
+  </ng-container>
 
   <ng-container matColumnDef="finalPrice">
     <th class="final-price" mat-header-cell *matHeaderCellDef>Final Price</th>

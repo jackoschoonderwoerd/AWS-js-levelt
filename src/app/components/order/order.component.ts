@@ -222,16 +222,15 @@ export class OrderComponent implements OnInit {
   createSelectablePickupDates() {
     const today = new Date(new Date().setHours(0,0,0,0));
     const todayDate = today.getDate()
-    // const startDate = new Date(today.setDate(today.getDate() -5));
     this.selectablePickupDates = [];
     for (let i = 0; i <= 6; i++) {
-      // this.selectablePickupDates.push(new Date().setHours(1,0,0,0))
       this.selectablePickupDates.push(new Date(today).setDate(todayDate + i));
     }
-    
-    this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
-      return new Date(date).getDay() !== 0;
-    });
+    // ? TAKE OUT SUNDAYS
+    // this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
+    //   return new Date(date).getDay() !== 0;
+    // });
+
     this.selectablePickupDates = this.selectablePickupDates.map((date: number) => {
       return new Date(date).setHours(1,0,0,0);
     });

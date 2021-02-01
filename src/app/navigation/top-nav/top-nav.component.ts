@@ -1,6 +1,7 @@
 
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from 'src/app/components/auth/auth.service';
 
 import { UserInfo } from 'src/app/models/user-info.model';
 
@@ -13,14 +14,15 @@ export class TopNavComponent implements OnInit {
 
   @Output() sideNavToggle = new EventEmitter<void>();
 
-  loginStatus: boolean = false;
+  isLoggedIn: boolean = false;
   username: string = '';
   mySubscription: any;
   userInfo: UserInfo;
 
 
   constructor(
-    private router: Router) {
+    private router: Router,
+    private authService: AuthService) {
       this.router.routeReuseStrategy.shouldReuseRoute = () => {
         return false;
       }
@@ -32,7 +34,9 @@ export class TopNavComponent implements OnInit {
     }
 
   ngOnInit() {
-   
+    this.authService.loginSubscription.subscribe((isLoggedIn: boolean) => {
+      this.isLoggedIn = isLoggedIn;
+    });
   }
   
   onToggleSideNav() {
@@ -49,5 +53,8 @@ export class TopNavComponent implements OnInit {
   }
   onOrderTable() {
     this.router.navigate(['order-table']);
+  }
+  onLogOut() {
+    this.authService.logOut()
   }
 }
