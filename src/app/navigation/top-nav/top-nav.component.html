@@ -1,3 +1,4 @@
+
 <header class="main-header" color="primary">
     <i class="fas fa-3x fa-bars" (click)="onToggleSideNav()"></i>
     <ul class="main-nav__items">
@@ -7,23 +8,39 @@
           JS-LEVELT
         </a>
       </li>
-      <li class="main-nav__item">
-        <a (click)="routeSelected('/order')"><i class="fas fa-shopping-basket"></i></a>
-      </li>
+      <!-- <li *ngIf="showShoppingCart" class="main-nav__item">
+        <div
+           class="shopping-basket-container">
+          <a class="link" (click)="routeSelected('/order')">
+            <mat-icon class="mat-icon">shopping_cart</mat-icon>
+            <span class="ordered-items-amount">{{orderedItemsAmount}}</span>
+        </a>
+        </div>
+      </li> -->
     </ul>
     <nav class="main-nav">
       <ul class="main-nav__items">
-        <li class="main-nav__item">
-          <a (click)="articleSelected('coffee')">COFFEE</a>
+        <li *ngIf="!isLoggedIn" class="main-nav__item">
+          <a routerLinkActive="router-link-active" (click)="articleSelected('coffee')">COFFEE</a>
         </li>
-        <li class="main-nav__item">
+        <li *ngIf="!isLoggedIn" class="main-nav__item">
           <a (click)="articleSelected('tea')">TEA</a>
         </li>
         <li *ngIf="isLoggedIn" class="main-nav__item">
           <a (click)="onOrderTable()">ORDER TABLE</a>
         </li>
+       
         <li *ngIf="!isLoggedIn" class="main-nav__item">
-          <a routerLink="/login">LOG IN</a>
+          <div
+             class="shopping-basket-container">
+            <a class="link" (click)="routeSelected('/order')">
+              <mat-icon class="mat-icon">shopping_cart</mat-icon>
+              <span class="ordered-items-amount">{{orderedItemsAmount}}</span>
+          </a>
+          </div>
+        </li>
+        <li *ngIf="!isLoggedIn" class="main-nav__item">
+          <a routerLinkActive="router-link-active" routerLink="/login">LOG IN</a>
         </li>
         <li (click)="onLogOut()" *ngIf="isLoggedIn" class="main-nav__item">
           <a>LOG OUT</a>

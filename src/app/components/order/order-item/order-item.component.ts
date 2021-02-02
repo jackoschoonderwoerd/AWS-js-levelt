@@ -33,6 +33,7 @@ export class OrderItemComponent implements OnInit {
   isFormIsValid: boolean = false;
   isWeightSelected: boolean = false;
   isItemSelected: boolean = false;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -45,10 +46,15 @@ export class OrderItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.isFormIsValid);
-    console.log(this.orderItemForm)
-    this.orderService.getFinalOrder()
+    this.orderService.getFinalOrder();
+    this.orderService.informTopNavOrederedItemsAmount();
     this.initForm();
+    if (this.route.snapshot.paramMap.get('editMode') === 'true') {
+      this.isEditMode = true;
+    } else {
+      this.isEditMode = false;
+    }
+    console.log(this.isEditMode);
     this.type = this.route.snapshot.paramMap.get('type')
     if (this.type === 'coffee') {
       this.namesAndPrices = this.coffeeService.getNamesAndPrices();
@@ -63,18 +69,14 @@ export class OrderItemComponent implements OnInit {
       this.orderedItemIndex = +this.route.snapshot.paramMap.get('index');
       this.isEditMode = true
       this.orderedItem = this.orderService.getOrderedItem(index);
-      console.log(this.orderedItem);
       this.type = this.orderedItem.type;
       if (this.type === 'coffee') {
-        console.log(this.orderedItem.nameAndPrice);
         this.namesAndPrices = this.coffeeService.getNamesAndPrices();
         this.weightUnits = this.coffeeService.getSelectableWeightUnits();
         this.brewMethods = this.coffeeService.getBrewMethods();
         this.grindSizes = this.coffeeService.getGrindSizes();
       } else if (this.type === 'tea') {
-        console.log('TEA')
       }
-      console.log(this.orderedItem);
       this.orderItemForm.setValue({
         nameAndPrice: this.orderedItem.nameAndPrice,
         weightUnit: this.orderedItem.weightUnit,
@@ -116,7 +118,6 @@ export class OrderItemComponent implements OnInit {
   }
 
   capacitySelectedChanged(e) {
-    console.log(e.value);
     if(e.value === 'beans') {
       this.orderItemForm.patchValue({
         brewMethodOrMill: null,
@@ -135,7 +136,6 @@ export class OrderItemComponent implements OnInit {
     this.validateForm();
   }
   brewMethodOrMillChanged(e) {
-    console.log(e.value)
     if(e.value === 'brewMethod') {
       this.orderItemForm.patchValue({
         mill: null,

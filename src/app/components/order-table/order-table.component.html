@@ -98,10 +98,10 @@
     </ng-container>
   </div>
  
-  <ng-container matColumnDef="print">
-    <th class="header-cell-pickupTime centre" mat-header-cell *matHeaderCellDef> PickupTime </th>
-    <td class="padding-left" mat-cell *matCellDef="let element">
-      <button type="button" (click)="onPrintElement(element)">PRINT</button>
+  <ng-container matColumnDef="view">
+    <th class="header-cell-pickupTime centre" mat-header-cell *matHeaderCellDef></th>
+    <td class="view" mat-cell *matCellDef="let element">
+      <button type="button" mat-raised-button color="primary" class="view-button" (click)="onView(element.orderId)">VIEW</button>
     </td>
   </ng-container>
 

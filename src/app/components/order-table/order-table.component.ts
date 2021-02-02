@@ -34,7 +34,7 @@ export class OrderTableComponent implements OnInit {
     'pickupTime',
     'orders',
     'finalPrice',
-    'print'
+    'view'
   ];
 
   orders :FinalOrder[];
@@ -131,8 +131,8 @@ export class OrderTableComponent implements OnInit {
     });
   }
 
-  onPrintElement(element) {
-    const orderId = (element.orderId)
+  onView(orderId) {
+    // const orderId = (element.orderId)
     this.router.navigate(['/single-order', {orderId}])
   }
 }

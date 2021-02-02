@@ -17,6 +17,7 @@ export class OrderService {
 
   finalPriceSubject = new Subject<number>();
   finalOrderSubject = new Subject<FinalOrder>();
+  orderedItemsAmountSubject = new Subject<number>();
 
   orderedItems: OrderedItem[] = [];
   ordersChanged = new EventEmitter<OrderedItem[]>();
@@ -55,6 +56,8 @@ export class OrderService {
     this.finalOrder.orderedItems.splice(index, 1);
     this.storeFinalOrderInLS();
     this.finalOrderSubject.next(this.finalOrder);
+    // this.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
+    this.informTopNavOrederedItemsAmount()
     this.calculateFinalPrice()
   }
   deleteOrderedItems() {
@@ -73,6 +76,8 @@ export class OrderService {
           0
         );
     }
+    this.informTopNavOrederedItemsAmount()
+    // this.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
     this.storeFinalOrderInLS();
   }
 
@@ -81,6 +86,11 @@ export class OrderService {
     this.storeFinalOrderInLS();
   }
 
+  informTopNavOrederedItemsAmount() {
+    if(this.finalOrder) {
+      this.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
+    }
+  }
 
 
   calculateFinalPrice() {
@@ -149,5 +159,9 @@ export class OrderService {
     const timestamp = new Date(date).getTime();
     const correctedTimestamp = timestamp + 60 * 60 * 1000
     return correctedTimestamp
+  }
+
+  clearFinalOrder() {
+    this.finalOrder = null;
   }
 }

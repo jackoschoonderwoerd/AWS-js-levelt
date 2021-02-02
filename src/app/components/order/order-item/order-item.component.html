@@ -1,7 +1,14 @@
 <!-- <p>order-item works! {{type}}</p>
 <p>isEditMode: {{isEditMode}}</p> -->
-<section #sections class="section" fxLayoutAlign="center center">
+{{isEditMode}}
+<section
+  #sections
+  class="section" 
+  fxLayoutAlign="center center">
   <mat-card>
+    <div fxLayout fxLayoutAlign="center" *ngIf="isEditMode" class="edit-mode">
+      <h4 >EDITMODE</h4>
+    </div>
     <form
       class="order-form"
       [formGroup]="orderItemForm"

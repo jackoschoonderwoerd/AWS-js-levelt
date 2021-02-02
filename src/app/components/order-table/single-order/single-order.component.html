@@ -1,8 +1,63 @@
 <p>single-order works!</p>
+<section
+  class="section"
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onPrint()">PRINT</button>
+  <mat-card id="printableArea">
+    <ul>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>CLIENT NAME</span><span>{{order.orderInfo.clientName}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>CLIENT EMAIL</span><span>{{order.orderInfo.clientEmail}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>CLIENT PHONE</span><span>{{order.orderInfo.clientPhone}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>ORDER ID</span><span>{{order.orderId}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>PICKUP DATE</span><span>{{order.orderInfo.selectedPickupDate | date:"medium"}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>PICKUP TIME</span><span>{{order.orderInfo.pickupTimeslot}}</span>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <span>STAMPS</span><span>{{order.orderInfo.stamps}}</span>
+      </li>
+      <hr>
+      <li *ngFor="let orderedItem of order.orderedItems">
+        <ul>
+          <li fxLayout fxLayoutAlign="space-between"><span>TYPE</span><span>{{orderedItem.type}}</span></li>
+          <li fxLayout fxLayoutAlign="space-between"><span>NAME</span><span>{{orderedItem.nameAndPrice}}</span></li>
+          <li fxLayout fxLayoutAlign="space-between"><span>CAPACITY</span><span>{{orderedItem.capacity}}</span></li>
+          <li *ngIf="orderedItem.brewMethod" fxLayout fxLayoutAlign="space-between"><span>BREW METHOD</span><span>{{orderedItem.brewMethod}}</span></li>
+          <li *ngIf="orderedItem.mill" fxLayout fxLayoutAlign="space-between"><span>MILL</span><span>{{orderedItem.mill}}</span></li>
+          <li *ngIf="orderedItem.grindSize" fxLayout fxLayoutAlign="space-between"><span>GRINDSIZE</span><span>{{orderedItem.grindSize}}</span></li>
+          <li fxLayout fxLayoutAlign="space-between"><span>COST</span><span>{{orderedItem.cost | currency:"EUR"}}</span></li>
 
-<button (click)="onPrint()">PRINT</button>
-<div #printableArea id="printableArea" class="printable-area">
-  <p>start</p>
-  {{order.orderId}}
-  <p>end</p>
-</div>
+        </ul>
+        <hr>
+      </li>
+      <li fxLayout fxLayoutAlign="space-between">
+        <strong><span>TOTAL</span></strong><strong><span>{{order.finalPrice | currency: "EUR"}}</span></strong>
+      </li>
+      <!-- <li>
+          {{order.orderId}}
+        </li>
+        <li>
+          {{order.clientName}}
+        </li>
+        <li>
+          {{order.clientEmail}} -->
+      <!-- </li> -->
+    </ul>
+
+
+  </mat-card>
+</section>

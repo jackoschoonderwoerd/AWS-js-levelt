@@ -1,10 +1,8 @@
 /* ============== plus-0rem ================== */
 
-/* .bedrijfsnaam {
-  text-decoration: none;
-  color: black;
-} */
-
+.router-link-active {
+  color: red;
+}
 .main-header {
     width: 100%;
     top: 0;
@@ -33,7 +31,32 @@
   .fas {
     font-size: 1.5rem;
   }
-  
+
+  .shopping-basket-container {
+    background-color: white;
+    /* border: 1px solid pink; */
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 10px;
+
+    /* vertical-align: middle; */
+  }
+  .link {
+    /* justify-content: center; */
+    /* border: 1px solid lightblue; */
+  }
+  .mat-icon {
+    /* border: 1px solid lightgreen; */
+    vertical-align: middle;
+    margin-bottom: 5px;
+    color: blue;
+ }
+  .ordered-items-amount {
+    /* border: 1px solid orange; */
+    color: blue;
+    margin-left: 5px;
+  }
   .main-nav {
     display: none;
   }

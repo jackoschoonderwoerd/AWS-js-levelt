@@ -12,7 +12,6 @@
         *ngFor="let orderedItem of orderedItems; let index = index"
         fxLayout fxLayoutAlign="space-between">
         <div class="ordered-item-properties" fxLayout>
-          <mat-icon class="delete-icon" (click)="onInfo(orderedItem, index)">info</mat-icon>
           <!-- <mat-icon class="delete-icon" (click)="onDeleteOrderedItem(index)">delete_forever</mat-icon> -->
           {{orderedItem.weightUnit}} .gr
           <!-- {{orderedItem.type}} -->
@@ -21,6 +20,7 @@
         <div class="ordered-item-cost">
           {{orderedItem.cost | currency: 'EUR'}}
           <!-- <mat-icon class="edit-icon" (click)="onEditOrderedItem(index)">edit</mat-icon> -->
+          <mat-icon color="primary" class="edit-icon" (click)="onInfo(orderedItem, index)">edit</mat-icon>
         </div>
       </li>
     </ul>
@@ -100,7 +100,7 @@
         </mat-form-field>
       </div> -->
 
-      <mat-form-field *ngIf="pickupTimeslots">
+      <mat-form-field>
         <mat-label>SELECTEER AFHAALDATUM</mat-label>
         <mat-select
           formControlName="selectedPickupDate"
@@ -117,7 +117,7 @@
       <mat-form-field *ngIf="pickupTimeslots">
         <mat-label>SELECTEER AFHAALTIJDSTIP</mat-label>
         <mat-select
-          [(value)]="selectedPickupTimeslot"
+          
           formControlName="pickupTimeslot"
           (selectionChange)="timeslotSelected($event)">
           <mat-option
@@ -144,7 +144,7 @@
           CANCEL
         </button>
         <button
-          [disabled]="orderInfoForm.invalid"
+          [disabled]="orderInfoForm.invalid || finalPrice === 0"
           mat-raised-button
           color="primary">
           SEND ORDER

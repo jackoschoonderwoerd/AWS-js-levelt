@@ -44,6 +44,7 @@ import { CancelOrderDialogComponent } from './components/order/dialogs/cancel-or
 import { OrderTableComponent } from './components/order-table/order-table.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SingleOrderComponent } from './components/order-table/single-order/single-order.component';
+import { DetourComponent } from './components/detour/detour.component';
 
 
 
@@ -76,6 +77,7 @@ import { SingleOrderComponent } from './components/order-table/single-order/sing
     OrderTableComponent,
     LoginComponent,
     SingleOrderComponent,
+    DetourComponent,
     
     
     

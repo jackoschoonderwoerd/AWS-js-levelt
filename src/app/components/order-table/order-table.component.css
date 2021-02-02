@@ -39,6 +39,15 @@ th.mat-header-cell {
   font-weight: normal;
   background-color: aquamarine;
 }
+.view {
+  text-align: center; 
+    vertical-align: middle;
+
+}
+/* .view-button {
+  margin-left: auto;
+  margin-right: auto;
+} */
 .final-price {
   text-align: right;
 }

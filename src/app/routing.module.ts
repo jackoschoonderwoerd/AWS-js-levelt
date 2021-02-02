@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
+import { DetourComponent } from './components/detour/detour.component';
 import { ErrorsComponent } from './components/errorhandling/errors/errors.component';
 import { HomeComponent } from './components/home/home.component';
 import { OrderTableComponent } from './components/order-table/order-table.component';
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'order-item', component: OrderItemComponent },
   { path: 'order-table', component: OrderTableComponent },
   { path: 'single-order', component: SingleOrderComponent },
+  { path: 'single-order-2', component: SingleOrderComponent },
+  { path: 'detour', component: DetourComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', component: HomeComponent }
 ]

@@ -36,10 +36,11 @@ export class OrderComponent implements OnInit {
   finalOrder: FinalOrder;
   pickupTimeslots;
   selectablePickupDates = [];
+  selectedPickupTimeslot: string;
+  pickupTimeslot
 
   now: string = new Date().toString();
 
-  selectedPickupTimeslot: string;
 
   constructor(
     private orderService: OrderService,
@@ -97,13 +98,13 @@ export class OrderComponent implements OnInit {
     this.orderInfoForm.patchValue({
       pickupTimeslot: null
     })
-    this.selectedPickupTimeslot = null;
+    this.pickupTimeslot = null;
+    // this.selectedPickupTimeslot = null;
     this.orderInfoFormChanged()
     this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(event.value));
     console.log(this.pickupTimeslots);
     this.finalOrder.orderInfo.pickupTimeslot = null;
     this.orderService.updateOrderInfo(this.orderInfoForm.value);
-    console.log(this.selectedPickupTimeslot);
   }
 
   timeslotSelected(e) {
@@ -115,31 +116,27 @@ export class OrderComponent implements OnInit {
     this.orderInfoForm = this.fb.group({
       clientName: new FormControl(null, [Validators.required]),
       clientPhone: new FormControl(null, [Validators.required]),
-      // pickupDate: new FormControl(undefined, [Validators.required]),
       selectedPickupDate: new FormControl(undefined, [Validators.required]),
       pickupTimeslot: new FormControl(null, [Validators.required]),
       clientEmail: new FormControl(null, [Validators.required]),
-      stamps: new FormControl(null, [Validators.required])
+      stamps: new FormControl(null)
 
-      // pickupDate: new FormControl(undefined, [Validators.required]),
-      // pickupTimeslot: new FormControl(null, [Validators.required]),
-      // stampsRequired: new FormControl(null)
+
     });
     if(this.finalOrder){
+      this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate));
       this.orderInfoForm.setValue({
         clientName: this.finalOrder.orderInfo.clientName,
         clientEmail: this.finalOrder.orderInfo.clientEmail,
-        // pickupDate: this.finalOrder.orderInfo.pickupDate,
         selectedPickupDate: this.finalOrder.orderInfo.selectedPickupDate,
         pickupTimeslot: this.finalOrder.orderInfo.pickupTimeslot,
         clientPhone: this.finalOrder.orderInfo.clientPhone,
-        stamps: this.finalOrder.orderInfo.stamps
-        // pickupDate: this.finalOrder.orderInfo.pickupDate, 
-        // pickupTimeslot: this.finalOrder.orderInfo.pickupTimeslot,
-        // stamps: this.finalOrder.orderInfo.stamps
+        stamps: this.finalOrder.orderInfo.stamps 
       });
       this.orderInfoForm.updateValueAndValidity();
-      this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate))
+      this.orderService.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
+
+      // this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate))
     } 
   }
 
@@ -156,6 +153,9 @@ export class OrderComponent implements OnInit {
           // this.ClearOrder()
           this.router.navigate(['/home'])
         }
+        // ? CLEAR ORDER
+        this.clearOrder();
+        this.orderService.orderedItemsAmountSubject.next(0);
       }
     ); 
   }
@@ -198,6 +198,7 @@ export class OrderComponent implements OnInit {
     this.orderInfoForm.reset();
     this.orderService.deleteOrderedItems();
     this.finalPrice = 0;
+    this.orderService.clearFinalOrder();
     
   }
 
@@ -236,7 +237,7 @@ export class OrderComponent implements OnInit {
     });
 
     this.selectablePickupDates.forEach(date => {
-      console.log(new Date(date));
+      // console.log(new Date(date));
     })
   }
 }
