@@ -23,45 +23,88 @@ export class OrderTableService {
       this.data = data;
       this.orders = this.data.Items;
       console.log(this.orders);
-      localStorage.setItem('order', JSON.stringify(this.orders));
+      localStorage.setItem('orders', JSON.stringify(this.orders));
       this.ordersSubject.next(this.orders)
       return this.orders;
     });
   }
 
+  getOrdersFromService() {
+    return new Promise((resolve, reject) => {
+      const err = false;
+      if(!err) {
+        resolve(this.orders)
+      } else {
+        reject('Error, no orders in service')
+      } 
+    })
+  }
+  getOrdersFromLS() {
+    return new Promise((resolve, reject) => {
+      const err = false;
+      if(!err) {
+        resolve(JSON.parse(localStorage.getItem('orders')))
+      } else {
+        reject('no orders in LS')
+      }
+    })
+  }
+
+  getOrdersFromDb() {
+    return new Promise((resolve, reject) => {
+      const err = false;
+      if(!err) {
+        resolve('ok')
+      } else {
+        reject('nok')
+      }
+    })
+  }
+ 
+
   getOrderById(orderId) {
+    console.log('this.orders');
     if (this.orders) {
       const ordersById = this.orders.filter((order: FinalOrder) => {
         return order.orderId === orderId
       })
+      console.log('orders from service');
       return ordersById[0];
     } else if (localStorage.getItem('orders')) {
       this.orders = JSON.parse(localStorage.getItem('orders'));
       const ordersById = this.orders.filter((order: FinalOrder) => {
         return order.orderId === orderId
       })
+      console.log('orders from LS');
       return ordersById[0];
     } else {
-      // this.orders = this.getOrders();
-      alert ('no orders found')
-    }
+      this.http.get('https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt').subscribe(data => {
+        this.data = data;
+        this.orders = this.data.Items;
+        console.log('orders from DB', this.orders);
+        const ordersById = this.orders.filter((order: FinalOrder) => {
+          console.log('orders from BD');
+          return order.orderId === orderId
+        })
+        return ordersById[0];
+      })
+    } 
   }
 
-  // getOrderById(orderId: string) {
-  //   console.log(this.orders);
-  //   if(this.orders === undefined) {
-  //     if (localStorage.getItem('orders')) {
-  //       this.orders = JSON.parse(localStorage.getItem('orders'));
-  //     } 
-  //     const ordersById = this.orders.filter((order: FinalOrder) => {
-  //       return order.orderId === orderId;
-  //     });
-  //     this.orderById = ordersById[0]
-  //     console.log(ordersById[0]);
-  //     return ordersById[0];
-  //   }
-  // }
+  getOrderByIdFromDb(orderId) {
+    return new Promise((resolve, reject) => {
+      this.http.get('https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt').subscribe(data => {
+        const err = false;
+        if(!err) {
+          resolve(data)
+        } else {
+          reject('Error, something went wrong')
+        }
+      })
+    })
+  }
 
+  
 
   returnThisOrders() {
     return this.orders
