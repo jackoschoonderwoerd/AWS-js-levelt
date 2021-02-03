@@ -1,5 +1,10 @@
-<p>single-order works!</p>
 <section
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <mat-spinner *ngIf="!order"></mat-spinner>
+</section>
+
+<section *ngIf="order"
   class="section"
   fxLayout="column"
   fxLayoutAlign="center center">
@@ -36,10 +41,14 @@
           <li fxLayout fxLayoutAlign="space-between"><span>TYPE</span><span>{{orderedItem.type}}</span></li>
           <li fxLayout fxLayoutAlign="space-between"><span>NAME</span><span>{{orderedItem.nameAndPrice}}</span></li>
           <li fxLayout fxLayoutAlign="space-between"><span>CAPACITY</span><span>{{orderedItem.capacity}}</span></li>
-          <li *ngIf="orderedItem.brewMethod" fxLayout fxLayoutAlign="space-between"><span>BREW METHOD</span><span>{{orderedItem.brewMethod}}</span></li>
-          <li *ngIf="orderedItem.mill" fxLayout fxLayoutAlign="space-between"><span>MILL</span><span>{{orderedItem.mill}}</span></li>
-          <li *ngIf="orderedItem.grindSize" fxLayout fxLayoutAlign="space-between"><span>GRINDSIZE</span><span>{{orderedItem.grindSize}}</span></li>
-          <li fxLayout fxLayoutAlign="space-between"><span>COST</span><span>{{orderedItem.cost | currency:"EUR"}}</span></li>
+          <li *ngIf="orderedItem.brewMethod" fxLayout fxLayoutAlign="space-between"><span>BREW
+              METHOD</span><span>{{orderedItem.brewMethod}}</span></li>
+          <li *ngIf="orderedItem.mill" fxLayout fxLayoutAlign="space-between">
+            <span>MILL</span><span>{{orderedItem.mill}}</span></li>
+          <li *ngIf="orderedItem.grindSize" fxLayout fxLayoutAlign="space-between">
+            <span>GRINDSIZE</span><span>{{orderedItem.grindSize}}</span></li>
+          <li fxLayout fxLayoutAlign="space-between"><span>COST</span><span>{{orderedItem.cost | currency:"EUR"}}</span>
+          </li>
 
         </ul>
         <hr>
@@ -47,17 +56,6 @@
       <li fxLayout fxLayoutAlign="space-between">
         <strong><span>TOTAL</span></strong><strong><span>{{order.finalPrice | currency: "EUR"}}</span></strong>
       </li>
-      <!-- <li>
-          {{order.orderId}}
-        </li>
-        <li>
-          {{order.clientName}}
-        </li>
-        <li>
-          {{order.clientEmail}} -->
-      <!-- </li> -->
     </ul>
-
-
   </mat-card>
 </section>

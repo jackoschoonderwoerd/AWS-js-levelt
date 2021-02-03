@@ -22,7 +22,6 @@ export class OrderTableService {
       // this.http.get("https://jsonplaceholder.typicode.com/users").subscribe(data =>  {
       this.data = data;
       this.orders = this.data.Items;
-      console.log(this.orders);
       localStorage.setItem('orders', JSON.stringify(this.orders));
       this.ordersSubject.next(this.orders)
       return this.orders;
@@ -61,35 +60,53 @@ export class OrderTableService {
     })
   }
  
+  // RETUNS AN ORDER: FINALORDER WITH THE GIVVEN ID
+  // RETURN FROM SERVICE
+  // RETURN FROM LS
+  // RETURN FROM DB
+
+  // GET AN ARRAY OF ALL THE ORDERS
+  // FILTER THE ARRAY
+  // RETURN THE ORDER
+
+  private getArrayOfAllTheOrders(): Promise<FinalOrder[]> {
+    console.log('getArrayOfAllTheOrders()')
+    return new Promise ((resolve, reject) => {
+      if(this.orders) {
+        console.log('orders from service')
+        resolve(this.orders);
+        reject('no orders in service');
+      } else if (localStorage.getItem('orders')) {
+        console.log('orders from LS');
+        resolve(JSON.parse(localStorage.getItem('orders')))
+        reject('no orders in LS')
+      } else {
+        const orders = fetch('https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt')
+        .then((res) => {
+          return res.json()
+        })
+        .then((res) => {
+          console.log('orders from DB')
+          resolve(res.Items);
+          reject('no cigar');
+        });
+      }
+    })
+  }
 
   getOrderById(orderId) {
-    console.log('this.orders');
-    if (this.orders) {
-      const ordersById = this.orders.filter((order: FinalOrder) => {
-        return order.orderId === orderId
-      })
-      console.log('orders from service');
-      return ordersById[0];
-    } else if (localStorage.getItem('orders')) {
-      this.orders = JSON.parse(localStorage.getItem('orders'));
-      const ordersById = this.orders.filter((order: FinalOrder) => {
-        return order.orderId === orderId
-      })
-      console.log('orders from LS');
-      return ordersById[0];
-    } else {
-      this.http.get('https://mz1n9q8fi4.execute-api.eu-central-1.amazonaws.com/dev/aws-levelt').subscribe(data => {
-        this.data = data;
-        this.orders = this.data.Items;
-        console.log('orders from DB', this.orders);
-        const ordersById = this.orders.filter((order: FinalOrder) => {
-          console.log('orders from BD');
+    return new Promise((resolve, reject) => {
+      this.getArrayOfAllTheOrders().then((orders: FinalOrder[]) => {
+        const orderarr = orders.filter((order: FinalOrder) => {
           return order.orderId === orderId
-        })
-        return ordersById[0];
-      })
-    } 
+        });
+        resolve(orderarr[0])
+        reject((err) => console.error(err));
+      });
+    })
   }
+
+
 
   getOrderByIdFromDb(orderId) {
     return new Promise((resolve, reject) => {

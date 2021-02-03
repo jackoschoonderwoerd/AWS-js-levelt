@@ -26,6 +26,7 @@ export class TopNavComponent implements OnInit {
   showShoppingCart: boolean = false;
   routeSubscription: Subscription;
   location;
+  showOrderTableLink: boolean = false;
 
 
   constructor(
@@ -50,6 +51,11 @@ export class TopNavComponent implements OnInit {
           this.showShoppingCart = false;
         } else {
           this.showShoppingCart = true;
+        }
+        if(event.url.includes('/single-order')) {
+          this.showOrderTableLink = true;
+        } else {
+          this.showOrderTableLink = false;
         }
       }
     })
