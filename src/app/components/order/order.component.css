@@ -66,15 +66,24 @@ mat-icon:hover {
   margin-bottom: 10px;
 }
 .ordered-item-properties {
+  /* border: 1px solid green; */
   text-align: left;
 }
 .ordered-item-properties:not(mat-icon) {
   font-size: 14px;
 }
 .ordered-item-cost {
+  /* border: 1px solid red; */
+  min-width: 85px;
   font-size: 14px;
   font-weight: 500;
-  margin-left: 7px;
+  margin-left: 5px;
+}
+.figure {
+  /* border: 1px solid black; */
+}
+.edit-icon {
+  /* border: 1px solid blue; */
 }
 .delete-icon {
   margin-right: 10px;
@@ -88,6 +97,13 @@ mat-icon:hover {
 
 .buttons {
   width: 100%;
+}
+
+.stamps-info-icon {
+  font-size: 24px;
+}
+.stamps-info-dialog {
+  width: 100px;
 }
 /* ========spinner========= */
 

@@ -15,6 +15,7 @@ import { FinalOrder } from 'src/app/models/final-order.model';
 import { OrderDirectDialogComponent } from '../home/order-direct-dialog/order-direct-dialog.component';
 import { OrderitemInfoDialogComponent } from './dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
 import { CancelOrderDialogComponent } from './dialogs/cancel-order-dialog/cancel-order-dialog.component';
+import { StampsInfoComponent } from './dialogs/stamps-info/stamps-info.component';
 
 @Component({
   selector: 'app-order',
@@ -149,7 +150,7 @@ export class OrderComponent implements OnInit {
           this.dialog.open(FinalizeErrorDialogComponent, {data: {errorMessage: res.errorMessage}});
         } else {
           this.isLoading = false;
-          this.dialog.open(FinalizeOrderDialogComponent);
+          this.dialog.open(FinalizeOrderDialogComponent, {width: '400px'});
           // this.ClearOrder()
           this.router.navigate(['/home'])
         }
@@ -174,23 +175,7 @@ export class OrderComponent implements OnInit {
     })
   }
 
-  // sendOrder() {
-  //   this.isLoading = true;
-  //   this.orderService.postFinalOrder().subscribe(
-  //     (res: any) => {
-  //       if(res.errorMessage) {
-  //         this.isLoading = false;
-  //         this.dialog.open(FinalizeErrorDialogComponent, {data: {errorMessage: res.errorMessage}});
-  //       } else {
-  //         console.log(res);
-  //         this.isLoading = false;
-  //         this.dialog.open(FinalizeOrderDialogComponent);
-  //         // this.ClearOrder()
-  //         this.router.navigate(['/home'])
-  //       }
-  //     }
-  //   ); 
-  // }
+ 
 
   private clearOrder() {
     this.finalOrder = null;
@@ -207,10 +192,18 @@ export class OrderComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  onStampsInfo() {
+    this.dialog.open(StampsInfoComponent, {
+      panelClass: 'stamps-info-dialog',
+      maxWidth: '400px'
+    });
+  }
+
   myDayFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     return day !== 0;
   }
+  
   public onCancel() {
     const dialogRef =  this.dialog.open(CancelOrderDialogComponent);
     dialogRef.afterClosed().subscribe((response) => {
@@ -228,9 +221,9 @@ export class OrderComponent implements OnInit {
       this.selectablePickupDates.push(new Date(today).setDate(todayDate + i));
     }
     // ? TAKE OUT SUNDAYS
-    // this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
-    //   return new Date(date).getDay() !== 0;
-    // });
+    this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
+      return new Date(date).getDay() !== 0;
+    });
 
     this.selectablePickupDates = this.selectablePickupDates.map((date: number) => {
       return new Date(date).setHours(1,0,0,0);

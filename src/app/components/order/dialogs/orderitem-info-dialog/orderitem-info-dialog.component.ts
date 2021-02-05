@@ -27,6 +27,7 @@ export class OrderitemInfoDialogComponent implements OnInit {
     this.index = this.data.index
   }
   onEdit() {
+    console.log(this.data.index);
     this.router.navigate(['/order-item', {editMode: 'true', index: this.data.index}]);
     this.dialog.closeAll();
     

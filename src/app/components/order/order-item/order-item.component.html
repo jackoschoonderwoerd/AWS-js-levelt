@@ -1,6 +1,6 @@
 <!-- <p>order-item works! {{type}}</p>
 <p>isEditMode: {{isEditMode}}</p> -->
-{{isEditMode}}
+
 <section
   #sections
   class="section" 
@@ -17,7 +17,7 @@
 
       <mat-form-field>
         <mat-select
-          placeholder="SELECT ITEM"
+          placeholder="SELECT {{type | uppercase}}"
           formControlName="nameAndPrice"
           (selectionChange)="nameAndPriceChanged($event)">
           <mat-option *ngFor="let nameAndPrice of namesAndPrices" [value]="nameAndPrice">
@@ -54,10 +54,10 @@
       <div
         class="grind-instructions"
         *ngIf="orderItemForm.value.capacity === 'ground'">
-        <p>Wij bepalen de maling aan de hand van de door u opgegeven instructies</p>
+        <p>Wij bepalen de maling aan de hand van de door u opgegeven instructies.</p>
         <p>Indien u bekend bent met onze molens, en weet op wat voor stand wij normaal u koffie malen kunt u dat hier
-          aangeven</p>
-        <p>In het andere geval bepalen we de maling aan de hand van de door u opgegeven zetmethode</p>
+          aangeven.</p>
+        <p>In het andere geval bepalen we de maling aan de hand van de door u opgegeven zetmethode.</p>
       </div>
 
       <mat-radio-group

@@ -16,7 +16,7 @@ export class AuthService {
 
   login(authData) {
     console.log(authData);
-    if(authData.name === 'jacko' && authData.password === '123') {
+    if(authData.name === 'tamara' && authData.password === '123') {
       this.isLoggedIn = true;
     } else {
       this.isLoggedIn = false;

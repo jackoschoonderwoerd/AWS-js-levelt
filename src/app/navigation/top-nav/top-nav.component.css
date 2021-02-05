@@ -3,6 +3,9 @@
 .router-link-active {
   color: red;
 }
+.link-active {
+  color: pink;
+}
 .main-header {
     width: 100%;
     top: 0;
@@ -121,7 +124,7 @@
     }
   }
   
-  /* ============= plus-40rem =================== */
+  /* ============= plus-40rem large screen =================== */
   
   @media(min-width: 40rem){
   

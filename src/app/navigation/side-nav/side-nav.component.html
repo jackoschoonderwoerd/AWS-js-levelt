@@ -15,43 +15,45 @@
       (click)="toggle()"
       mat-raised-button
       color="primary">
-      <a [routerLink]="['home']">HOME</a>
+      <a [routerLink]="['/home']">HOME</a>
     </button>
+    <button
+    *ngIf="!loginStatus"
+    (click)="toggle()"
+    mat-raised-button
+    color="primary"
+    (click)="onTypeSelected('coffee')">
+    <a>KOFFIE</a>
+  </button>
     <button
       *ngIf="!loginStatus"
       (click)="toggle()"
       mat-raised-button
-      color="primary">
-      <a [routerLink]="['coffee']">KOFFIE</a>
-    </button>
-    <button
-      *ngIf="!loginStatus"
-      (click)="toggle()"
-      mat-raised-button
-      color="primary">
-      <a [routerLink]="['tea']">THEE</a>
+      color="primary"
+      (click)="onTypeSelected('tea')">
+      <a>THEE</a>
     </button>
     <button
     *ngIf="!loginStatus"
       (click)="toggle()"
       mat-raised-button
       color="primary">
-      <a [routerLink]="['order']">ORDER</a>
+      <a [routerLink]="['/order']">ORDER</a>
     </button>
-    <button
+    <!-- <button
       *ngIf="!loginStatus"
       (click)="toggle()"
       mat-raised-button
       color="primary">
       <a [routerLink]="['overview']">ADMIN</a>
-    </button>
-    <button
+    </button> -->
+    <!-- <button
     *ngIf="loginStatus"
       (click)="toggle()"
       mat-raised-button
       color="primary">
       <a (click)="onLogOut()">LOG OUT</a>
-    </button>
+    </button> -->
     <!-- <button
       (click)="toggle()"
       mat-raised-button

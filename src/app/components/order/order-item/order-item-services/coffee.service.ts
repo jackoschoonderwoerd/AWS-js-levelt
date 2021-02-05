@@ -32,6 +32,7 @@ export class CoffeeService {
   selectableWeightUnits = [
     100,
     250,
+    500,
     1000
   ];
 

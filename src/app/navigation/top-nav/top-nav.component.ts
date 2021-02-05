@@ -27,6 +27,11 @@ export class TopNavComponent implements OnInit {
   routeSubscription: Subscription;
   location;
   showOrderTableLink: boolean = false;
+  coffeeLinkActive: boolean = false;
+  teaLinkActive: boolean = false;
+  loginLinkActive: boolean = false;
+  orderLinkActive: boolean = false;
+  homeLinkActive: boolean = false;
 
 
   constructor(
@@ -57,8 +62,55 @@ export class TopNavComponent implements OnInit {
         } else {
           this.showOrderTableLink = false;
         }
+        if(event.url.includes('type=coffee', 5)) {
+          console.log('type=coffee')
+          this.teaLinkActive = false
+          this.coffeeLinkActive = true;
+          this.loginLinkActive = false;
+          this.orderLinkActive = false;
+          this.homeLinkActive = false;
+        }
+        if(event.url.includes('type=tea', 5)) {
+          console.log('type=tea');
+          this.coffeeLinkActive = false;
+          this.teaLinkActive = true;
+          this.loginLinkActive = false;
+          this.orderLinkActive = false;
+          this.homeLinkActive = false;
+        }
+        if(event.url.includes('login')) {
+          console.log('login active');
+          this.loginLinkActive = true;
+          this.coffeeLinkActive = false;
+          this.teaLinkActive = false;
+          this.orderLinkActive = false;
+          this.homeLinkActive = false;
+        }
+        if(event.url.includes('order') && event.url.length === 6) {
+          console.log('order active');
+          this.orderLinkActive = true;
+          this.coffeeLinkActive = false;
+          this.teaLinkActive = false;
+          this.loginLinkActive = false;
+          this.homeLinkActive = false;
+        }
+        if(event.url.includes('home')) {
+          console.log('home active');
+          this.homeLinkActive = true;
+          this.loginLinkActive = false;
+          this.coffeeLinkActive = false;
+          this.teaLinkActive = false;
+          this.orderLinkActive = false;
+        }
       }
     })
+  }
+  private isExactMatch(eventUrl: string, link: string): boolean {
+    if(eventUrl.includes(link) && eventUrl.length === link.length) {
+      return true;
+    } else {
+      return false
+    }
   }
 
   ngOnInit() {

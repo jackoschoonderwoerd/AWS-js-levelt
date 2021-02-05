@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FinalOrder } from 'src/app/models/final-order.model';
 import { OrderedItem } from 'src/app/models/ordered-item.model';
 import { OrderService } from '../order-services/order.service';
 import { CoffeeService } from './order-item-services/coffee.service';
+import { TeaService } from './order-item-services/tea.service';
+import { OrderedItemInfoDialogComponent } from './ordered-item-info-dialog/ordered-item-info-dialog.component';
 
 
 @Component({
@@ -13,6 +16,8 @@ import { CoffeeService } from './order-item-services/coffee.service';
   styleUrls: ['./order-item.component.css']
 })
 export class OrderItemComponent implements OnInit {
+
+  divClicked = false;
 
   orderItemForm: FormGroup;
   coffeeItems: string[] = [];
@@ -29,19 +34,21 @@ export class OrderItemComponent implements OnInit {
   capacity: string;
   brewMethods: string[];
   grindSizes: string[];
-  
+
   isFormIsValid: boolean = false;
   isWeightSelected: boolean = false;
   isItemSelected: boolean = false;
-  
+
 
   constructor(
     private fb: FormBuilder,
     private coffeeService: CoffeeService,
+    private teaService: TeaService,
     private route: ActivatedRoute,
     private router: Router,
-    private orderService: OrderService
-     
+    private orderService: OrderService,
+    private dialog: MatDialog
+
   ) {
   }
 
@@ -62,10 +69,11 @@ export class OrderItemComponent implements OnInit {
       this.brewMethods = this.coffeeService.getBrewMethods();
       this.grindSizes = this.coffeeService.getGrindSizes();
     } else if (this.type === 'tea') {
-
+      this.namesAndPrices = this.teaService.getNamesAndPrices();
+      this.weightUnits = this.teaService.getSelectableWeightUnits()
     }
     const index = this.route.snapshot.paramMap.get('index');
-    if(index) {
+    if (index) {
       this.orderedItemIndex = +this.route.snapshot.paramMap.get('index');
       this.isEditMode = true
       this.orderedItem = this.orderService.getOrderedItem(index);
@@ -76,6 +84,8 @@ export class OrderItemComponent implements OnInit {
         this.brewMethods = this.coffeeService.getBrewMethods();
         this.grindSizes = this.coffeeService.getGrindSizes();
       } else if (this.type === 'tea') {
+        this.namesAndPrices = this.teaService.getNamesAndPrices();
+        this.weightUnits = this.teaService.getSelectableWeightUnits();
       }
       this.orderItemForm.setValue({
         nameAndPrice: this.orderedItem.nameAndPrice,
@@ -87,7 +97,7 @@ export class OrderItemComponent implements OnInit {
         grindSize: this.orderedItem.grindSize
       })
       this.calculateItemCost();
-      
+
       this.validateForm();
     }
   }
@@ -98,7 +108,7 @@ export class OrderItemComponent implements OnInit {
       nameAndPrice: new FormControl(null, [Validators.required]),
       weightUnit: new FormControl(null, [Validators.required]),
       // cost: new FormControl(null, []),
-      capacity: new FormControl(null, [Validators.required]),
+      capacity: new FormControl(null, []),
       brewMethodOrMill: new FormControl(null, []),
       brewMethod: new FormControl(null, []),
       mill: new FormControl(null, []),
@@ -107,25 +117,28 @@ export class OrderItemComponent implements OnInit {
       // grindSize: new FormControl(null, []),
     })
   }
-  
+
   nameAndPriceChanged(e): void {
+    console.log(e);
     this.calculateItemCost();
     this.isItemSelected = true;
+    // this.dialog.open(OrderedItemInfoDialogComponent , {data: {name: e.value}})
   }
   selectedWeightUnitChanged(e): void {
     this.calculateItemCost();
-    this.isWeightSelected = true
+    this.isWeightSelected = true;
+    this.validateForm()
   }
 
   capacitySelectedChanged(e) {
-    if(e.value === 'beans') {
+    if (e.value === 'beans') {
       this.orderItemForm.patchValue({
         brewMethodOrMill: null,
         brewMethod: null,
         mill: null,
         grindSize: null
       })
-    } else if(e.value = 'ground') {
+    } else if (e.value = 'ground') {
       this.orderItemForm.patchValue({
         brewMethodOrMill: null,
         brewMethod: null,
@@ -136,7 +149,7 @@ export class OrderItemComponent implements OnInit {
     this.validateForm();
   }
   brewMethodOrMillChanged(e) {
-    if(e.value === 'brewMethod') {
+    if (e.value === 'brewMethod') {
       this.orderItemForm.patchValue({
         mill: null,
         grindSize: null
@@ -152,7 +165,7 @@ export class OrderItemComponent implements OnInit {
   brewMethodSelected() {
     this.validateForm();
   }
-  millSelected () {
+  millSelected() {
     this.validateForm();
   }
   grindSizeSelected() {
@@ -160,9 +173,9 @@ export class OrderItemComponent implements OnInit {
   }
 
   validateForm() {
-    console.log(this.orderItemForm);
-    
-    if(this.type === 'coffee') {
+    console.log('validating:', this.orderItemForm);
+
+    if (this.type === 'coffee') {
       if (
         this.orderItemForm.value.nameAndPrice &&
         this.orderItemForm.value.weightUnit &&
@@ -184,20 +197,23 @@ export class OrderItemComponent implements OnInit {
         this.orderItemForm.value.grindSize) {
           this.isFormIsValid = true;
       } else {
-        this.isFormIsValid = false;
+          this.isFormIsValid = false;
       }
-    } else if(this.type === 'tea') {
+    } else if (this.type === 'tea') {
+      console.log(this.orderItemForm);
       if (
-        this.isItemSelected &&
-        this.isWeightSelected) {
+        this.orderItemForm.value.nameAndPrice &&
+        this.orderItemForm.value.weightUnit) {
           this.isFormIsValid = true;
+      } else {
+        this.isFormIsValid = false;
       }
     }
   }
-  
+
 
   onSubmitOrderForm(): void {
-    if(this.isEditMode) {
+    if (this.isEditMode) {
       this.orderService.editOrderedItem(
         new OrderedItem(
           this.type,
@@ -218,7 +234,7 @@ export class OrderItemComponent implements OnInit {
       this.orderService.addToOrderedItems(
         new OrderedItem(
           this.type,
-          this.orderItemForm.value.nameAndPrice, 
+          this.orderItemForm.value.nameAndPrice,
           this.orderItemForm.value.weightUnit,
           this.itemCost,
           this.orderItemForm.value.capacity,
@@ -226,8 +242,8 @@ export class OrderItemComponent implements OnInit {
           this.orderItemForm.value.brewMethod,
           this.orderItemForm.value.mill,
           this.orderItemForm.value.grindSize
-          )
-        );
+        )
+      );
       this.router.navigate(['/order']);
     }
   }
@@ -242,8 +258,8 @@ export class OrderItemComponent implements OnInit {
   private extractItemPrice(nameAndPrice: string): number {
     console.log('extractingItemPrice', nameAndPrice);
     const nameAndPriceArray = nameAndPrice.split('€')
-    this.itemPrice = +nameAndPriceArray[nameAndPriceArray.length -1].trim();
-    return +nameAndPriceArray[nameAndPriceArray.length -1].trim();
+    this.itemPrice = +nameAndPriceArray[nameAndPriceArray.length - 1].trim();
+    return +nameAndPriceArray[nameAndPriceArray.length - 1].trim();
 
   }
   private calculateItemCost(): void {
@@ -255,8 +271,15 @@ export class OrderItemComponent implements OnInit {
       this.itemCost = (itemPricePerGram * selectedWeight)
       console.log(this.itemCost);
     } else if (this.type === 'tea') {
-      console.log('TBI;')
+      const nameAndPrice = this.orderItemForm.value.nameAndPrice;
+      const itemPricePerGram = this.extractItemPrice(nameAndPrice) / 100;
+      const selectedWeight = this.orderItemForm.value.weightUnit;
+      this.itemCost = (itemPricePerGram * selectedWeight)
+      console.log(this.itemCost);
     }
   }
-  
+  onInfo() {
+    console.log('onInfoe()')
+  }
+
 }

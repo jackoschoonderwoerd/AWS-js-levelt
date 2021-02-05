@@ -32,7 +32,8 @@ export class SideNavComponent implements OnInit {
     console.log('side-nav.component.ts: toggle()')
     this.mobileNavStatus = !this.mobileNavStatus;
   }
-  onLogOut() {
-    console.log('logging out');
+
+  onTypeSelected(type) {
+    this.router.navigate(['/order-item', {type: type}])
   }
 }

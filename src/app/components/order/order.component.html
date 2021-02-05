@@ -13,24 +13,33 @@
         fxLayout fxLayoutAlign="space-between">
         <div class="ordered-item-properties" fxLayout>
           <!-- <mat-icon class="delete-icon" (click)="onDeleteOrderedItem(index)">delete_forever</mat-icon> -->
-          {{orderedItem.weightUnit}} .gr
+          <!-- <div class="ordered-item-weight"> -->
+            {{orderedItem.weightUnit}} gr.
+          <!-- </div> -->
           <!-- {{orderedItem.type}} -->
           {{orderedItem.nameAndPrice.split(',')[0]}}
         </div>
-        <div class="ordered-item-cost">
-          {{orderedItem.cost | currency: 'EUR'}}
+        <div class="ordered-item-cost"
+          fxLayout
+          fxLayoutAlign="end">
+          <div class="figure">
+            {{orderedItem.cost | currency: 'EUR'}}
+          </div>
           <!-- <mat-icon class="edit-icon" (click)="onEditOrderedItem(index)">edit</mat-icon> -->
-          <mat-icon color="primary" class="edit-icon" (click)="onInfo(orderedItem, index)">edit</mat-icon>
+          <mat-icon class="edit-icon" color="primary" class="edit-icon" (click)="onInfo(orderedItem, index)">edit</mat-icon>
         </div>
       </li>
     </ul>
     <hr *ngIf="finalPrice !== 0">
     <div *ngIf="finalPrice !== 0" class="final-price" fxLayout fxLayoutAlign="space-between">
       <div class="">
-        Total:
+        <strong>
+          Total:
+        </strong>
       </div>
-      <div>
-        {{finalPrice | currency:'EUR'}}
+        <div><strong>
+          {{finalPrice | currency:'EUR'}}
+        </strong>
         <!-- <mat-icon class="invisible-icon edit-icon">edit</mat-icon> -->
       </div>
     </div>
@@ -107,7 +116,7 @@
           (selectionChange)="dateChanged($event)">
           <mat-option
             *ngFor="let selectablePickupDate of selectablePickupDates" [value]="selectablePickupDate">
-            {{selectablePickupDate | date:"medium"}}
+            {{selectablePickupDate | date:"fullDate"}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -127,14 +136,19 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-checkbox
-        *ngIf="finalPrice > 5"
+      <div *ngIf="finalPrice > 5" class="zegels"
         fxLayout
-        fxlayoutAlign="start"
-        formControlName="stamps"
-        (change)="orderInfoFormChanged()"
-        color="primary"><span>Zegels</span>
-      </mat-checkbox>
+        fxLayoutGap="20px">
+        <mat-checkbox
+          fxLayout
+          fxlayoutAlign="start"
+          formControlName="stamps"
+          (change)="orderInfoFormChanged()"
+          color="primary"><span>Zegels</span>
+        </mat-checkbox>
+        <div
+          (click)="onStampsInfo()"><mat-icon class="stamps-info-icon">info</mat-icon></div>
+      </div>
       <hr>
       <div class="buttons" fxLayout fxLayoutGap="25px">
         <button

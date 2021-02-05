@@ -45,6 +45,8 @@ import { OrderTableComponent } from './components/order-table/order-table.compon
 import { LoginComponent } from './components/auth/login/login.component';
 import { SingleOrderComponent } from './components/order-table/single-order/single-order.component';
 import { DetourComponent } from './components/detour/detour.component';
+import { StampsInfoComponent } from './components/order/dialogs/stamps-info/stamps-info.component';
+import { OrderedItemInfoDialogComponent } from './components/order/order-item/ordered-item-info-dialog/ordered-item-info-dialog.component';
 
 
 
@@ -78,6 +80,8 @@ import { DetourComponent } from './components/detour/detour.component';
     LoginComponent,
     SingleOrderComponent,
     DetourComponent,
+    StampsInfoComponent,
+    OrderedItemInfoDialogComponent,
     
     
     

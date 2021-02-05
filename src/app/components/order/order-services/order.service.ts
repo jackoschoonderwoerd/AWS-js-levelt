@@ -97,7 +97,7 @@ export class OrderService {
     
     this.finalPrice = 0;
     // if(this.finalOrder.orderedItems.length > 0) {
-    if(this.finalOrder !== undefined) {
+    if(this.finalOrder !== undefined && this.finalOrder.orderedItems.length !== 0) {
       this.finalOrder.orderedItems.forEach((orderedItem: OrderedItem) => {
       this.finalPrice = this.finalPrice + orderedItem.cost;
       });

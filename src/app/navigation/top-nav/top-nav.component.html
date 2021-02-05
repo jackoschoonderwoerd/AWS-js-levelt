@@ -3,35 +3,77 @@
     <i class="fas fa-3x fa-bars" (click)="onToggleSideNav()"></i>
     <ul class="main-nav__items">
       <li class="main-nav__item">
-        <a class="bedrijfsnaam"
-          (click)="routeSelected('/home')" routerLinkActive="router-link-active" >
+        <a 
+          class="bedrijfsnaam"
+          (click)="routeSelected('/home')"
+          
+          [ngStyle]="{'color': homeLinkActive ? 'red' : 'white'}">
           JS-LEVELT
         </a>
+      </li>
+      <li *ngIf="!isLoggedIn" class="main-nav__item">
+        <div
+           class="shopping-basket-container">
+          <a
+            class="link" 
+            (click)="routeSelected('/order')">
+            <mat-icon
+              [ngStyle]="{'color': orderLinkActive ? 'red' : 'blue'}"
+              class="mat-icon">shopping_cart</mat-icon>
+            <span 
+            [ngStyle]="{'color': orderLinkActive ? 'red' : 'blue'}"
+              class="ordered-items-amount">
+              {{orderedItemsAmount}}
+            </span>
+        </a>
+        </div>
       </li>
     </ul>
     <nav class="main-nav">
       <ul class="main-nav__items">
-        <li *ngIf="!isLoggedIn" class="main-nav__item">
-          <a routerLinkActive="router-link-active" (click)="articleSelected('coffee')">COFFEE</a>
+        <li
+          *ngIf="!isLoggedIn" 
+          class="main-nav__item">
+          <a 
+            [ngStyle]="{'color': coffeeLinkActive ? 'red' : 'white'}"
+            (click)="articleSelected('coffee')">
+            COFFEE
+          </a>
         </li>
         <li *ngIf="!isLoggedIn" class="main-nav__item">
-          <a (click)="articleSelected('tea')">TEA</a>
+          <a
+            [ngStyle]="{'color': teaLinkActive ? 'red' : 'white'}" 
+            (click)="articleSelected('tea')">
+            TEA
+          </a>
         </li>
         <li *ngIf="showOrderTableLink" class="main-nav__item">
           <a (click)="onOrderTable()">ORDER TABLE</a>
         </li>
-       
-        <li *ngIf="!isLoggedIn" class="main-nav__item">
+        <!-- <li *ngIf="!isLoggedIn" class="main-nav__item">
           <div
              class="shopping-basket-container">
-            <a class="link" (click)="routeSelected('/order')">
-              <mat-icon class="mat-icon">shopping_cart</mat-icon>
-              <span class="ordered-items-amount">{{orderedItemsAmount}}</span>
+            <a
+              class="link" 
+              (click)="routeSelected('/order')">
+              <mat-icon
+                [ngStyle]="{'color': orderLinkActive ? 'red' : 'blue'}"
+                class="mat-icon">shopping_cart</mat-icon>
+              <span 
+              [ngStyle]="{'color': orderLinkActive ? 'red' : 'blue'}"
+                class="ordered-items-amount">
+                {{orderedItemsAmount}}
+              </span>
           </a>
           </div>
-        </li>
+        </li> -->
+
         <li *ngIf="!isLoggedIn" class="main-nav__item">
-          <a routerLinkActive="router-link-active" routerLink="/login">LOG IN</a>
+          <a
+            [ngStyle]="{'color': loginLinkActive ? 'red' : 'white'}"  
+            routerLinkActive="router-link-active" routerLink="/login">
+            LOG IN
+          </a>
         </li>
         <li (click)="onLogOut()" *ngIf="isLoggedIn" class="main-nav__item">
           <a>LOG OUT</a>
