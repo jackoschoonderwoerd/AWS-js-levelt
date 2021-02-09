@@ -182,5 +182,6 @@ export class OrderService {
 
   clearFinalOrder() {
     this.finalOrder = null;
+    this.orderedItemsAmountSubject.next(0);
   }
 }

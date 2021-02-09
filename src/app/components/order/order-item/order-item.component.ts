@@ -38,6 +38,7 @@ export class OrderItemComponent implements OnInit {
   isFormIsValid: boolean = false;
   isWeightSelected: boolean = false;
   isItemSelected: boolean = false;
+  
 
 
   constructor(
@@ -61,7 +62,6 @@ export class OrderItemComponent implements OnInit {
     } else {
       this.isEditMode = false;
     }
-    console.log(this.isEditMode);
     this.type = this.route.snapshot.paramMap.get('type')
     if (this.type === 'coffee') {
       this.namesAndPrices = this.coffeeService.getNamesAndPrices();
@@ -119,7 +119,6 @@ export class OrderItemComponent implements OnInit {
   }
 
   nameAndPriceChanged(e): void {
-    console.log(e);
     this.calculateItemCost();
     this.isItemSelected = true;
     // this.dialog.open(OrderedItemInfoDialogComponent , {data: {name: e.value}})
@@ -173,7 +172,6 @@ export class OrderItemComponent implements OnInit {
   }
 
   validateForm() {
-    console.log('validating:', this.orderItemForm);
 
     if (this.type === 'coffee') {
       if (
@@ -200,7 +198,6 @@ export class OrderItemComponent implements OnInit {
           this.isFormIsValid = false;
       }
     } else if (this.type === 'tea') {
-      console.log(this.orderItemForm);
       if (
         this.orderItemForm.value.nameAndPrice &&
         this.orderItemForm.value.weightUnit) {
@@ -230,7 +227,6 @@ export class OrderItemComponent implements OnInit {
       );
       this.router.navigate(['/order']);
     } else {
-      // console.log(this.orderItemForm.value);
       this.orderService.addToOrderedItems(
         new OrderedItem(
           this.type,
@@ -256,7 +252,6 @@ export class OrderItemComponent implements OnInit {
   }
 
   private extractItemPrice(nameAndPrice: string): number {
-    console.log('extractingItemPrice', nameAndPrice);
     const nameAndPriceArray = nameAndPrice.split('€')
     this.itemPrice = +nameAndPriceArray[nameAndPriceArray.length - 1].trim();
     return +nameAndPriceArray[nameAndPriceArray.length - 1].trim();
@@ -269,17 +264,14 @@ export class OrderItemComponent implements OnInit {
       const itemPricePerGram = this.extractItemPrice(nameAndPrice) / 250;
       const selectedWeight = this.orderItemForm.value.weightUnit;
       this.itemCost = (itemPricePerGram * selectedWeight)
-      console.log(this.itemCost);
     } else if (this.type === 'tea') {
       const nameAndPrice = this.orderItemForm.value.nameAndPrice;
       const itemPricePerGram = this.extractItemPrice(nameAndPrice) / 100;
       const selectedWeight = this.orderItemForm.value.weightUnit;
       this.itemCost = (itemPricePerGram * selectedWeight)
-      console.log(this.itemCost);
     }
   }
   onInfo() {
-    console.log('onInfoe()')
   }
 
 }

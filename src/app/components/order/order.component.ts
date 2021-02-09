@@ -19,18 +19,18 @@ import { StampsInfoComponent } from './dialogs/stamps-info/stamps-info.component
 
 @Component({
   selector: 'app-order',
-  templateUrl: './order.component.html', 
+  templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
-  
+
 })
 export class OrderComponent implements OnInit {
   orderedItems: OrderedItem[] = [];
   finalPrice = 0
   orderInfoForm: FormGroup;
   orderInfoFormValue;
-  minDate: Date;
-  maxDate: Date;
-  afhaalMomenten: string[] = [];
+  // minDate: Date;
+  // maxDate: Date;
+  // afhaalMomenten: string[] = [];
   orderInfo: OrderInfo;
   orderButtonDisabled: boolean = this.orderedItems.length === 0;
   isLoading = false;
@@ -38,7 +38,9 @@ export class OrderComponent implements OnInit {
   pickupTimeslots;
   selectablePickupDates = [];
   selectedPickupTimeslot: string;
-  pickupTimeslot
+  pickupTimeslot;
+  stampsChecked: boolean = false;
+
 
   now: string = new Date().toString();
 
@@ -49,8 +51,8 @@ export class OrderComponent implements OnInit {
     private pickupTimeslotsService: PickupTimeslotsService,
     private dialog: MatDialog,
     private router: Router) {
-      
-    }
+
+  }
   ngOnInit(): void {
     this.createSelectablePickupDates();
     this.orderService.finalOrderSubject.subscribe((finalOrder: FinalOrder) => {
@@ -61,27 +63,32 @@ export class OrderComponent implements OnInit {
     })
     this.finalOrder = this.orderService.getFinalOrder();
     this.orderService.calculateFinalPrice();
-    this.orderService.finalPriceSubscription
-      .subscribe((finalPrice: number) => {
-      this.finalPrice = finalPrice;
-    });
+    if(this.finalOrder !== null) {
+      console.log(this.finalOrder.orderInfo);
+      this.orderService.finalPriceSubject
+        .subscribe((finalPrice: number) => {
+          this.finalPrice = finalPrice;
+          if (this.finalPrice < 5) {
+            this.finalOrder.orderInfo.stamps = false;
+            this.orderService.updateOrderInfo(this.finalOrder.orderInfo);
+            }
+        });
+    }
     this.orderService.ordersChanged.subscribe((orderedItems: OrderedItem[]) => {
       this.orderedItems = orderedItems;
     })
-    // this.afhaalMomenten = this.pickupTimeslotsService.getTimeslots(this.orderInfoForm.value.pickupDate.setHours());
+
 
 
     this.orderedItems = this.orderService.getOrderedItems();
-    const today = new Date()
-    this.minDate = today;
-    this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
+    // const today = new Date()
+    // this.minDate = today;
+    // this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
     this.initForm();
   }
 
   onInfo(orderedItem: OrderedItem, index: number) {
-    // this.dialog.open(OrderItemInfoDialogComponent, {data: {orderedItem: orderedItem, index: index}});
-    // this.dialog.open(OrderDirectDialogComponent, {data: {orderedItem: orderedItem, index: index}});
-    this.dialog.open(OrderitemInfoDialogComponent, {width: "400px", data: {orderedItem: orderedItem, index: index}});
+    this.dialog.open(OrderitemInfoDialogComponent, { width: "400px", data: { orderedItem: orderedItem, index: index } });
   }
 
   onDeleteOrderedItem(index: number) {
@@ -89,7 +96,7 @@ export class OrderComponent implements OnInit {
   }
 
   onEditOrderedItem(index: number) {
-    this.router.navigate(['/order-item', {index: index}]);
+    this.router.navigate(['/order-item', { index: index }]);
   }
 
   orderInfoFormChanged() {
@@ -103,13 +110,11 @@ export class OrderComponent implements OnInit {
     // this.selectedPickupTimeslot = null;
     this.orderInfoFormChanged()
     this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(event.value));
-    console.log(this.pickupTimeslots);
     this.finalOrder.orderInfo.pickupTimeslot = null;
     this.orderService.updateOrderInfo(this.orderInfoForm.value);
   }
 
   timeslotSelected(e) {
-    console.log(e)
     this.orderInfoFormChanged()
   }
 
@@ -120,11 +125,11 @@ export class OrderComponent implements OnInit {
       selectedPickupDate: new FormControl(undefined, [Validators.required]),
       pickupTimeslot: new FormControl(null, [Validators.required]),
       clientEmail: new FormControl(null, [Validators.required]),
-      stamps: new FormControl(null)
-
-
+      // stamps: new FormControl(false)
+      stamps: new FormControl({ value: false, disabled: this.finalPrice < 5 ? true : false })
     });
-    if(this.finalOrder){
+    if (this.finalOrder) {
+      console.log(this.finalOrder);
       this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate));
       this.orderInfoForm.setValue({
         clientName: this.finalOrder.orderInfo.clientName,
@@ -132,25 +137,26 @@ export class OrderComponent implements OnInit {
         selectedPickupDate: this.finalOrder.orderInfo.selectedPickupDate,
         pickupTimeslot: this.finalOrder.orderInfo.pickupTimeslot,
         clientPhone: this.finalOrder.orderInfo.clientPhone,
-        stamps: this.finalOrder.orderInfo.stamps 
+        stamps: this.finalOrder.orderInfo.stamps
+        // stamps: false
       });
       this.orderInfoForm.updateValueAndValidity();
       this.orderService.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
 
       // this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate))
-    } 
+    }
   }
 
   onSubmitOrderInfoForm() {
     this.isLoading = true;
     this.orderService.postFinalOrder().subscribe(
       (res: any) => {
-        if(res.errorMessage) {
+        if (res.errorMessage) {
           this.isLoading = false;
-          this.dialog.open(FinalizeErrorDialogComponent, {data: {errorMessage: res.errorMessage}});
+          this.dialog.open(FinalizeErrorDialogComponent, { data: { errorMessage: res.errorMessage } });
         } else {
           this.isLoading = false;
-          this.dialog.open(FinalizeOrderDialogComponent, {width: '400px'});
+          this.dialog.open(FinalizeOrderDialogComponent, { width: '400px' });
           // this.ClearOrder()
           this.router.navigate(['/home'])
         }
@@ -158,24 +164,24 @@ export class OrderComponent implements OnInit {
         this.clearOrder();
         this.orderService.orderedItemsAmountSubject.next(0);
       }
-    ); 
+    );
   }
 
   onAddItems(type: string) {
-    this.router.navigate(['/order-item', {type: type}]);
+    this.router.navigate(['/order-item', { type: type }]);
   }
 
 
   orderMore() {
-    const dialogRef =  this.dialog.open(OrderMoreDialogComponent, {
+    const dialogRef = this.dialog.open(OrderMoreDialogComponent, {
       width: '350px'
     });
     dialogRef.afterClosed().subscribe((type: string) => {
-      this.router.navigate(['/order-item', {type: type}])
+      this.router.navigate(['/order-item', { type: type }])
     })
   }
 
- 
+
 
   private clearOrder() {
     this.finalOrder = null;
@@ -184,13 +190,13 @@ export class OrderComponent implements OnInit {
     this.orderService.deleteOrderedItems();
     this.finalPrice = 0;
     this.orderService.clearFinalOrder();
-    
+
   }
 
-  public onCancelOrder() {
-    this.clearOrder();
-    this.router.navigate(['home']);
-  }
+  // public onCancelOrder() {
+  //   this.clearOrder();
+  //   this.router.navigate(['home']);
+  // }
 
   onStampsInfo() {
     this.dialog.open(StampsInfoComponent, {
@@ -203,34 +209,33 @@ export class OrderComponent implements OnInit {
     const day = (d || new Date()).getDay();
     return day !== 0;
   }
-  
+
   public onCancel() {
-    const dialogRef =  this.dialog.open(CancelOrderDialogComponent);
+    const dialogRef = this.dialog.open(CancelOrderDialogComponent);
     dialogRef.afterClosed().subscribe((response) => {
-      if(response === 'wis') {
+      if (response === 'wis') {
         this.clearOrder()
-      }  
+      }
     })
   }
 
   createSelectablePickupDates() {
-    const today = new Date(new Date().setHours(0,0,0,0));
+    const today = new Date(new Date().setHours(0, 0, 0, 0));
     const todayDate = today.getDate()
     this.selectablePickupDates = [];
     for (let i = 0; i <= 6; i++) {
       this.selectablePickupDates.push(new Date(today).setDate(todayDate + i));
     }
     // ? TAKE OUT SUNDAYS
-    this.selectablePickupDates =  this.selectablePickupDates.filter((date) => {
+    this.selectablePickupDates = this.selectablePickupDates.filter((date) => {
       return new Date(date).getDay() !== 0;
     });
 
     this.selectablePickupDates = this.selectablePickupDates.map((date: number) => {
-      return new Date(date).setHours(1,0,0,0);
+      return new Date(date).setHours(1, 0, 0, 0);
     });
 
     this.selectablePickupDates.forEach(date => {
-      // console.log(new Date(date));
     })
   }
 }

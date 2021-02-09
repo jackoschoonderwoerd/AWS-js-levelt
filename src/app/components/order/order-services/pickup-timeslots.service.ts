@@ -26,7 +26,7 @@ export class PickupTimeslotsService {
   firstTimeslotStartHour: number = 10;
   firstTimeslotStartMinute: number = 0;
 
-  lastTimeslotStartHour: number = 24
+  lastTimeslotStartHour: number = 17
   lastTimselotStartMinute: number = 0;
 
   timeslotDurationInMilliseconds: number = 60 * 60 * 1000;
@@ -87,10 +87,10 @@ export class PickupTimeslotsService {
         
       )
     });
-    if(filteredStringSlots.length < this.maxLength) {
-      filteredStringSlots.unshift('haast?, bel [ADD PHONE NUMBER]');
-      filteredStringSlots.push('last');
-    }
+    // if(filteredStringSlots.length < this.maxLength) {
+    //   filteredStringSlots.unshift('haast?, bel [ADD PHONE NUMBER]');
+    //   filteredStringSlots.push('last');
+    // }
     return filteredStringSlots;
   }
 

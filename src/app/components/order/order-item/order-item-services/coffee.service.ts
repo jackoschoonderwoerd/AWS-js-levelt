@@ -11,7 +11,7 @@ export class CoffeeService {
   namesAndPrices = [
     'Guji Hambela Natural, 250 gr. € 4.89',
     'Maliba Kasese Natural, 250 gr. € 8.95',
-    'Caracolito Parelkoffie - Brazilië, 250 gr. € 6.95',
+    'Caracolito Parelkoffie, 250 gr. € 6.95',
     'La Victoria Huila, 250 gr. € 6.95',
     'Roma, 250 gr. € 6.95',
     'Palermo, 250 gr. € 5.95',

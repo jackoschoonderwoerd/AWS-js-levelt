@@ -49,9 +49,7 @@ export class TopNavComponent implements OnInit {
       }
     });
     router.events.subscribe((event: Event) => {
-      // console.log(event);
       if(event instanceof NavigationStart) {
-        console.log(event.url)
         if(event.url.includes("/order-table") || event.url.includes('/single-order')) {
           this.showShoppingCart = false;
         } else {
@@ -63,7 +61,6 @@ export class TopNavComponent implements OnInit {
           this.showOrderTableLink = false;
         }
         if(event.url.includes('type=coffee', 5)) {
-          console.log('type=coffee')
           this.teaLinkActive = false
           this.coffeeLinkActive = true;
           this.loginLinkActive = false;
@@ -71,7 +68,6 @@ export class TopNavComponent implements OnInit {
           this.homeLinkActive = false;
         }
         if(event.url.includes('type=tea', 5)) {
-          console.log('type=tea');
           this.coffeeLinkActive = false;
           this.teaLinkActive = true;
           this.loginLinkActive = false;
@@ -79,7 +75,6 @@ export class TopNavComponent implements OnInit {
           this.homeLinkActive = false;
         }
         if(event.url.includes('login')) {
-          console.log('login active');
           this.loginLinkActive = true;
           this.coffeeLinkActive = false;
           this.teaLinkActive = false;
@@ -87,7 +82,6 @@ export class TopNavComponent implements OnInit {
           this.homeLinkActive = false;
         }
         if(event.url.includes('order') && event.url.length === 6) {
-          console.log('order active');
           this.orderLinkActive = true;
           this.coffeeLinkActive = false;
           this.teaLinkActive = false;
@@ -95,7 +89,6 @@ export class TopNavComponent implements OnInit {
           this.homeLinkActive = false;
         }
         if(event.url.includes('home')) {
-          console.log('home active');
           this.homeLinkActive = true;
           this.loginLinkActive = false;
           this.coffeeLinkActive = false;
@@ -115,10 +108,7 @@ export class TopNavComponent implements OnInit {
 
   ngOnInit() {
     
-    console.log('top-nav oninit')
     this.route.paramMap.subscribe((params: any) => {
-      console.log('new params');
-      console.log(params.get('type'));
     })
     this.authService.loginSubscription.subscribe((isLoggedIn: boolean) => {
       this.isLoggedIn = isLoggedIn;
@@ -131,7 +121,6 @@ export class TopNavComponent implements OnInit {
 
   onToggleSideNav() {
     this.sideNavToggle.emit();
-    console.log('emitted');
   }
 
 
