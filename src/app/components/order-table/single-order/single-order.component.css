@@ -1,0 +1,12 @@
+.button-container {
+  width: 100%;
+  /* border: 2px solid orange; */
+  padding-bottom: 15px;
+}
+.buttons {
+  width: 500px;
+  /* border: 1px solid green; */
+}
+button {
+  width: 45%
+}

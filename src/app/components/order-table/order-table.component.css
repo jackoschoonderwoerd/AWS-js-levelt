@@ -1,3 +1,13 @@
+.client-info {
+  max-width: 120px;
+}
+.pickup-date {
+  max-width: 100px;
+}
+.pickup-time {
+  max-width: 60px;
+}
+
 table {
   width: 100%;
 }
@@ -41,17 +51,51 @@ th.mat-header-cell {
 }
 .view {
   text-align: center; 
-    vertical-align: middle;
+  vertical-align: middle;
+  max-width: 40px;
+  padding-left: 5px;
 
 }
-/* .view-button {
-  margin-left: auto;
-  margin-right: auto;
-} */
+
 .final-price {
   text-align: right;
+  padding-right: 6px;
+  max-width: 35px;
 }
 .table-cell-mill {
   padding-left: 0px;
   text-align: center;
+}
+
+.order-table {
+  width: 100%
+}
+
+.table-header-article, .table-cell-article {
+  max-width: 33px;
+  /* width: 11% */
+}
+.table-header-name, .table-cell-name {
+  max-width: 150px;
+  /* width: 40% */
+}
+.table-header-weight, .table-cell-weight {
+  max-width: 40px;
+  /* width: 12% */
+}
+.table-header-capacity, .table-cell-capacity {
+  max-width: 40px;
+  /* width: 15% */
+}
+.table-header-brew, .table-cell-brew {
+  max-width: 40px;
+  /* width: 15% */
+}
+.table-header-mill, .table-cell-mill {
+  max-width: 40px;
+  /* width: 15% */
+}
+.table-header-grind, .table-cell-grind {
+  max-width: 40px;
+  /* width: 10% */
 }

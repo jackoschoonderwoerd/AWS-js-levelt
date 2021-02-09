@@ -3,10 +3,10 @@
 }
 
 .header {
-  min-width: 300px;
+  width: 100%;
   max-width: 500px;
   background-color: blue;
-  padding: 10px 15px;
+  padding: 10px 0px;
   
 }
 

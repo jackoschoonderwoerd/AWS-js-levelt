@@ -8,10 +8,26 @@
   class="section"
   fxLayout="column"
   fxLayoutAlign="center center">
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="onPrint()">PRINT</button>
+  <div 
+    class="button-container"
+    fxLayout
+    fxLayoutAlign="center">
+    <div
+      class="buttons"
+      fxLayout
+      fxLayoutAlign="space-between">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onPrint()">PRINT
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onClose()">CLOSE
+      </button>
+    </div>
+  </div>
   <mat-card id="printableArea">
     <ul>
       <li fxLayout fxLayoutAlign="space-between">

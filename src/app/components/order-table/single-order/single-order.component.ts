@@ -54,4 +54,8 @@ export class SingleOrderComponent implements OnInit {
     window.print()
     window.location.reload()
   }
+
+  onClose() {
+    this.router.navigate(['/order-table']);
+  }
 }

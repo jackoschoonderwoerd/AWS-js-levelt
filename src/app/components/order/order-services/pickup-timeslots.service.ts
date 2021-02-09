@@ -7,19 +7,7 @@ export class PickupTimeslotsService {
 
   constructor() { }
 
-  // now: number[] = [
-  //   new Date().getTime(),
-  //   new Date(2021,0,22).setHours(17,0,0,0), // 1
-  //   new Date(2021,0,22).setHours(17,14,0,0), // 2
-  //   new Date(2021,0,22).setHours(17,16,0,0), // 3
-  //   new Date(2021,0,22).setHours(17,29,0,0), // 4
-  //   new Date(2021,0,22).setHours(17,31,0,0), // 5
-  //   new Date(2021,0,22).setHours(17,34,0,0), // 6
-  //   new Date(2021,0,22).setHours(17,36,0,0), 
-  //   new Date(2021,0,22).setHours(17,44,0,0),
-  //   new Date(2021,0,22).setHours(17,46,0,0),
-  //   new Date(2021,0,23).setHours(17,46,0,0),
-  // ]
+
 
   maxLength: number;
 
