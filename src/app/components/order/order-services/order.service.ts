@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 
 
@@ -10,6 +10,7 @@ import { OrderedItem } from '../../../models/ordered-item.model';
 import { Subject } from 'rxjs';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,16 +19,12 @@ export class OrderService {
   finalPriceSubject = new Subject<number>();
   finalOrderSubject = new Subject<FinalOrder>();
   orderedItemsAmountSubject = new Subject<number>();
+  finalPriceUnderFiveSubject = new Subject<boolean>();
 
   orderedItems: OrderedItem[] = [];
   ordersChanged = new EventEmitter<OrderedItem[]>();
   finalPriceSubscription = new EventEmitter<number>();
   finalPrice: number = 0;
-  // finalOrder: FinalOrder = new FinalOrder(
-  //   new OrderInfo(null, null, null, null, true, null),
-  //   [],
-  //   0
-  // );
   finalOrder: FinalOrder
   
   
@@ -36,9 +33,14 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   updateOrderInfo(orderInfoForm: OrderInfo) {
+    // console.log(orderInfoForm);
     if(this.finalOrder) {
+      console.log('updating')
+      // console.log(this.finalOrder)
       this.finalOrder.orderInfo = orderInfoForm
+      // console.log(this.finalOrder)
     } else {
+      console.log('initializing new finalOrder');
       this.finalOrder = new FinalOrder (
         '',
         orderInfoForm,
@@ -60,6 +62,7 @@ export class OrderService {
     this.informTopNavOrederedItemsAmount()
     this.calculateFinalPrice()
   }
+
   deleteOrderedItems() {
     this.orderedItems = [];
     this.ordersChanged.emit(this.orderedItems)
@@ -71,7 +74,7 @@ export class OrderService {
     } else {
       this.finalOrder = new FinalOrder(
           '',
-          new OrderInfo(null, null, null, null, null, true, null),
+          new OrderInfo(null, null, null, null, null, false, null),
           [orderedItem],
           0
         );
@@ -94,10 +97,9 @@ export class OrderService {
 
 
   calculateFinalPrice() {
-    
     this.finalPrice = 0;
     // if(this.finalOrder.orderedItems.length > 0) {
-    if(this.finalOrder !== undefined && this.finalOrder.orderedItems.length !== 0) {
+    if(this.finalOrder !== undefined && this.finalOrder !== null) {
       this.finalOrder.orderedItems.forEach((orderedItem: OrderedItem) => {
       this.finalPrice = this.finalPrice + orderedItem.cost;
       });
@@ -118,7 +120,7 @@ export class OrderService {
   
   getOrderedItems() {
     // if(this.finalOrder.orderedItems !== []) {
-      if(this.finalOrder !== undefined) {
+      if(this.finalOrder !== undefined && this.finalOrder !== null) {
       return this.finalOrder.orderedItems;
     } else if(localStorage.getItem('finalOrder')) {
       this.orderedItems = JSON.parse(localStorage.getItem('finalOrder')).orderedItems;
@@ -133,14 +135,31 @@ export class OrderService {
     if(localStorage.getItem('finalOrder')) {
       this.finalOrder = JSON.parse(localStorage.getItem('finalOrder'));
       return this.finalOrder;
+    } else {
+      this.finalOrder = new FinalOrder(
+        null,
+        new OrderInfo(
+          null,
+          null,
+          null,
+          null,
+          null,
+          false,
+          null
+        ),
+        [],
+        null,
+        null,
+        null
+      )
     }
+    
     return this.finalOrder;
   }
   
   
   postFinalOrder() {
     this.finalOrder.orderInfo.pickupDate = new Date(this.finalOrder.orderInfo.pickupDate).getTime(); 
-    console.log(this.finalOrder);
     this.orderedItems = [];
     
     this.finalOrder.orderInfo.pickupDate = this.compensateDaylightSavingTime(this.finalOrder.orderInfo.pickupDate)
