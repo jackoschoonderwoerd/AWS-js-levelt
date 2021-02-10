@@ -1,105 +1,69 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
-
-
 import { AppComponent } from './app.component';
-
-
-import { OrderComponent } from './components/order/order.component';
-
-
-
-import { TopNavComponent } from './navigation/top-nav/top-nav.component';
-import { SideNavComponent } from './navigation/side-nav/side-nav.component';
-
-import { OrderService } from './components/order/order-services/order.service';
-import { CoffeeService } from './components/order/order-item/order-item-services/coffee.service';
-import { TeaService } from './components/order/order-item/order-item-services/tea.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MaterialModule } from './material.module';
-import { PickupTimeslotsService } from './components/order/order-services/pickup-timeslots.service';
-
-import { FinalizeOrderDialogComponent } from './components/order/dialogs/finalize-order-dialog/finalize-order-dialog.component';
-import { FinalizeErrorDialogComponent } from './components/order/dialogs/finalize-error-dialog/finalize-error-dialog.component';
-import { OrderMoreDialogComponent } from './components/order/dialogs/order-more-dialog/order-more-dialog.component';
-
-import { HomeComponent } from './components/home/home.component';
-import { OrderDirectDialogComponent } from './components/home/order-direct-dialog/order-direct-dialog.component';
-
-
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ErrorsComponent } from './components/errorhandling/errors/errors.component';
-
-import { GlobalHttpInterceptorService } from './components/errorhandling/errors/global-http-interceptor.service';
-import { OrderItemComponent } from './components/order/order-item/order-item.component';
-import { RoutingModule } from './routing.module';
-import { OrderitemInfoDialogComponent } from './components/order/dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { CancelOrderDialogComponent } from './components/order/dialogs/cancel-order-dialog/cancel-order-dialog.component';
-import { OrderTableComponent } from './components/order-table/order-table.component';
+import { CoffeeService } from './components/order/order-item/order-item-services/coffee.service';
+import { ErrorsComponent } from './components/errorhandling/errors/errors.component';
+import { FinalizeErrorDialogComponent } from './components/order/dialogs/finalize-error-dialog/finalize-error-dialog.component';
+import { FinalizeOrderDialogComponent } from './components/order/dialogs/finalize-order-dialog/finalize-order-dialog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { GlobalHttpInterceptorService } from './components/errorhandling/errors/global-http-interceptor.service';
+import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 import { LoginComponent } from './components/auth/login/login.component';
-import { SingleOrderComponent } from './components/order-table/single-order/single-order.component';
-import { DetourComponent } from './components/detour/detour.component';
-import { StampsInfoComponent } from './components/order/dialogs/stamps-info/stamps-info.component';
+import { MaterialModule } from './material.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule, Component } from '@angular/core';
+import { OrderComponent } from './components/order/order.component';
+import { OrderDirectDialogComponent } from './components/home/order-direct-dialog/order-direct-dialog.component';
 import { OrderedItemInfoDialogComponent } from './components/order/order-item/ordered-item-info-dialog/ordered-item-info-dialog.component';
-
-
-
-
-
-
-
-
-
-
+import { OrderItemComponent } from './components/order/order-item/order-item.component';
+import { OrderitemInfoDialogComponent } from './components/order/dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
+import { OrderMoreDialogComponent } from './components/order/dialogs/order-more-dialog/order-more-dialog.component';
+import { OrderService } from './components/order/order-services/order.service';
+import { OrderTableComponent } from './components/order-table/order-table.component';
+import { PickupTimeslotsService } from './components/order/order-services/pickup-timeslots.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RoutingModule } from './routing.module';
+import { SingleOrderComponent } from './components/order-table/single-order/single-order.component';
+import { StampsInfoComponent } from './components/order/dialogs/stamps-info/stamps-info.component';
+import { TeaService } from './components/order/order-item/order-item-services/tea.service';
+import { TopNavComponent } from './navigation/top-nav/top-nav.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    OrderComponent,
-    TopNavComponent,
-    SideNavComponent,
 
-    FinalizeOrderDialogComponent,
-    FinalizeErrorDialogComponent,
-    OrderMoreDialogComponent,
-    HomeComponent,
-    OrderDirectDialogComponent,
-    
+    AppComponent,
+    CancelOrderDialogComponent,
     ErrorsComponent,
+    FinalizeErrorDialogComponent,
+    FinalizeOrderDialogComponent,
+    HomeComponent,
+    LoginComponent,
+    OrderComponent,
+    OrderDirectDialogComponent,
+    OrderedItemInfoDialogComponent,
     OrderItemComponent,
     OrderitemInfoDialogComponent,
-    CancelOrderDialogComponent,
+    OrderMoreDialogComponent,
     OrderTableComponent,
-    LoginComponent,
     SingleOrderComponent,
-    DetourComponent,
     StampsInfoComponent,
-    OrderedItemInfoDialogComponent,
-    
-    
-    
-    
-    
+    TopNavComponent,
     
     
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
-    ReactiveFormsModule,
+    FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    RoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
-    FlexLayoutModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    RoutingModule,
   ],
   providers: [
     CoffeeService,

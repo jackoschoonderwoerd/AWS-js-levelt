@@ -33,14 +33,9 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   updateOrderInfo(orderInfoForm: OrderInfo) {
-    // console.log(orderInfoForm);
     if(this.finalOrder) {
-      console.log('updating')
-      // console.log(this.finalOrder)
       this.finalOrder.orderInfo = orderInfoForm
-      // console.log(this.finalOrder)
     } else {
-      console.log('initializing new finalOrder');
       this.finalOrder = new FinalOrder (
         '',
         orderInfoForm,

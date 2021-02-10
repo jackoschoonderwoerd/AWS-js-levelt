@@ -1,20 +1,17 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { OrderService } from 'src/app/components/order/order-services/order.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { PickupTimeslotsService } from 'src/app/components/order/order-services/pickup-timeslots.service';
-import { OrderInfo } from 'src/app/models/order-info.model';
-import { MatDialog } from '@angular/material/dialog';
-import { FinalizeOrderDialogComponent } from './dialogs/finalize-order-dialog/finalize-order-dialog.component';
-
-import { FinalizeErrorDialogComponent } from './dialogs/finalize-error-dialog/finalize-error-dialog.component';
-import { OrderMoreDialogComponent } from './dialogs/order-more-dialog/order-more-dialog.component';
-import { Router } from '@angular/router';
-import { OrderedItem } from 'src/app/models/ordered-item.model';
-import { FinalOrder } from 'src/app/models/final-order.model';
-
-import { OrderDirectDialogComponent } from '../home/order-direct-dialog/order-direct-dialog.component';
-import { OrderitemInfoDialogComponent } from './dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
 import { CancelOrderDialogComponent } from './dialogs/cancel-order-dialog/cancel-order-dialog.component';
+import { Component, OnInit } from '@angular/core';
+import { FinalizeErrorDialogComponent } from './dialogs/finalize-error-dialog/finalize-error-dialog.component';
+import { FinalizeOrderDialogComponent } from './dialogs/finalize-order-dialog/finalize-order-dialog.component';
+import { FinalOrder } from 'src/app/models/final-order.model';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderedItem } from 'src/app/models/ordered-item.model';
+import { OrderInfo } from 'src/app/models/order-info.model';
+import { OrderitemInfoDialogComponent } from './dialogs/orderitem-info-dialog/orderitem-info-dialog.component';
+import { OrderMoreDialogComponent } from './dialogs/order-more-dialog/order-more-dialog.component';
+import { OrderService } from 'src/app/components/order/order-services/order.service';
+import { PickupTimeslotsService } from 'src/app/components/order/order-services/pickup-timeslots.service';
+import { Router } from '@angular/router';
 import { StampsInfoComponent } from './dialogs/stamps-info/stamps-info.component';
 
 @Component({
@@ -28,9 +25,6 @@ export class OrderComponent implements OnInit {
   finalPrice = 0
   orderInfoForm: FormGroup;
   orderInfoFormValue;
-  // minDate: Date;
-  // maxDate: Date;
-  // afhaalMomenten: string[] = [];
   orderInfo: OrderInfo;
   orderButtonDisabled: boolean = this.orderedItems.length === 0;
   isLoading = false;
@@ -40,10 +34,6 @@ export class OrderComponent implements OnInit {
   selectedPickupTimeslot: string;
   pickupTimeslot;
   stampsChecked: boolean = false;
-
-
-  now: string = new Date().toString();
-
 
   constructor(
     private orderService: OrderService,
@@ -81,9 +71,6 @@ export class OrderComponent implements OnInit {
 
 
     this.orderedItems = this.orderService.getOrderedItems();
-    // const today = new Date()
-    // this.minDate = today;
-    // this.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6);
     this.initForm();
   }
 
@@ -107,7 +94,6 @@ export class OrderComponent implements OnInit {
       pickupTimeslot: null
     })
     this.pickupTimeslot = null;
-    // this.selectedPickupTimeslot = null;
     this.orderInfoFormChanged()
     this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(event.value));
     this.finalOrder.orderInfo.pickupTimeslot = null;
@@ -125,7 +111,6 @@ export class OrderComponent implements OnInit {
       selectedPickupDate: new FormControl(undefined, [Validators.required]),
       pickupTimeslot: new FormControl(null, [Validators.required]),
       clientEmail: new FormControl(null, [Validators.required]),
-      // stamps: new FormControl(false)
       stamps: new FormControl({ value: false, disabled: this.finalPrice < 5 ? true : false })
     });
     if (this.finalOrder) {
@@ -138,12 +123,9 @@ export class OrderComponent implements OnInit {
         pickupTimeslot: this.finalOrder.orderInfo.pickupTimeslot,
         clientPhone: this.finalOrder.orderInfo.clientPhone,
         stamps: this.finalOrder.orderInfo.stamps
-        // stamps: false
       });
       this.orderInfoForm.updateValueAndValidity();
       this.orderService.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
-
-      // this.pickupTimeslots = this.pickupTimeslotsService.getTimeslots(new Date(this.finalOrder.orderInfo.selectedPickupDate))
     }
   }
 
@@ -157,7 +139,6 @@ export class OrderComponent implements OnInit {
         } else {
           this.isLoading = false;
           this.dialog.open(FinalizeOrderDialogComponent, { width: '400px' });
-          // this.ClearOrder()
           this.router.navigate(['/home'])
         }
         // ? CLEAR ORDER
@@ -192,11 +173,6 @@ export class OrderComponent implements OnInit {
     this.orderService.clearFinalOrder();
 
   }
-
-  // public onCancelOrder() {
-  //   this.clearOrder();
-  //   this.router.navigate(['home']);
-  // }
 
   onStampsInfo() {
     this.dialog.open(StampsInfoComponent, {

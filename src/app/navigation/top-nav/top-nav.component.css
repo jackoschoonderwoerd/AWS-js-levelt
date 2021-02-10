@@ -35,6 +35,9 @@
 .logout {
   color: white;
 }
+a:hover {
+  cursor: pointer;
+}
 
 /* .router-link-active {
   color: red;
