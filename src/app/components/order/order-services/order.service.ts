@@ -8,6 +8,9 @@ import { FinalOrder } from '../../../models/final-order.model';
 import { OrderInfo } from '../../../models/order-info.model';
 import { OrderedItem } from '../../../models/ordered-item.model';
 import { Subject } from 'rxjs';
+import { ErrorService } from '../../errorhandling/error.service';
+import { Router } from '@angular/router';
+import { MyError } from 'src/app/models/my-error.model';
 
 
 
@@ -30,7 +33,10 @@ export class OrderService {
   
 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private errorService: ErrorService,
+    private router: Router) { }
 
   updateOrderInfo(orderInfoForm: OrderInfo) {
     if(this.finalOrder) {
@@ -41,7 +47,8 @@ export class OrderService {
         orderInfoForm,
         [],
         0
-        )
+      );
+      this.router.navigate(['/error'], {state: {error: new Error('there is a problem')}})
     }
     
     this.finalOrder.orderInfo = orderInfoForm;
@@ -53,7 +60,6 @@ export class OrderService {
     this.finalOrder.orderedItems.splice(index, 1);
     this.storeFinalOrderInLS();
     this.finalOrderSubject.next(this.finalOrder);
-    // this.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
     this.informTopNavOrederedItemsAmount()
     this.calculateFinalPrice()
   }
@@ -67,6 +73,7 @@ export class OrderService {
     if(this.finalOrder) {
       this.finalOrder.orderedItems.push(orderedItem);
     } else {
+      alert('order-service addToOderedItems');
       this.finalOrder = new FinalOrder(
           '',
           new OrderInfo(null, null, null, null, null, false, null),
@@ -75,7 +82,6 @@ export class OrderService {
         );
     }
     this.informTopNavOrederedItemsAmount()
-    // this.orderedItemsAmountSubject.next(this.finalOrder.orderedItems.length);
     this.storeFinalOrderInLS();
   }
 

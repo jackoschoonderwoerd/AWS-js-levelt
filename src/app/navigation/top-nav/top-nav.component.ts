@@ -134,7 +134,8 @@ export class TopNavComponent implements OnInit {
     this.router.navigate(['order-table']);
   }
   onLogOut() {
-    this.authService.logOut()
+    this.authService.logOut();
+    localStorage.removeItem('orders');
   }
   
 }

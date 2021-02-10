@@ -13,6 +13,7 @@ import { OrderService } from 'src/app/components/order/order-services/order.serv
 import { PickupTimeslotsService } from 'src/app/components/order/order-services/pickup-timeslots.service';
 import { Router } from '@angular/router';
 import { StampsInfoComponent } from './dialogs/stamps-info/stamps-info.component';
+import { MyError } from 'src/app/models/my-error.model';
 
 @Component({
   selector: 'app-order',
@@ -44,6 +45,7 @@ export class OrderComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    // this.router.navigate(['/error'], {state: {error: new MyError('there is a problem', 'order.component.ts')}})
     this.createSelectablePickupDates();
     this.orderService.finalOrderSubject.subscribe((finalOrder: FinalOrder) => {
       this.finalOrder = finalOrder;
@@ -53,23 +55,21 @@ export class OrderComponent implements OnInit {
     })
     this.finalOrder = this.orderService.getFinalOrder();
     this.orderService.calculateFinalPrice();
-    if(this.finalOrder !== null) {
-      console.log(this.finalOrder.orderInfo);
-      this.orderService.finalPriceSubject
-        .subscribe((finalPrice: number) => {
-          this.finalPrice = finalPrice;
-          if (this.finalPrice < 5) {
+
+    this.orderService.finalPriceSubject
+      .subscribe((finalPrice: number) => {
+        this.finalPrice = finalPrice;
+        if (this.finalPrice < 5) {
+          if (this.finalOrder) {
             this.finalOrder.orderInfo.stamps = false;
             this.orderService.updateOrderInfo(this.finalOrder.orderInfo);
-            }
-        });
-    }
+          }
+        }
+      });
+
     this.orderService.ordersChanged.subscribe((orderedItems: OrderedItem[]) => {
       this.orderedItems = orderedItems;
     })
-
-
-
     this.orderedItems = this.orderService.getOrderedItems();
     this.initForm();
   }
@@ -89,6 +89,7 @@ export class OrderComponent implements OnInit {
   orderInfoFormChanged() {
     this.orderService.updateOrderInfo(this.orderInfoForm.value)
   }
+
   dateChanged(event) {
     this.orderInfoForm.patchValue({
       pickupTimeslot: null
@@ -171,7 +172,6 @@ export class OrderComponent implements OnInit {
     this.orderService.deleteOrderedItems();
     this.finalPrice = 0;
     this.orderService.clearFinalOrder();
-
   }
 
   onStampsInfo() {
@@ -181,16 +181,12 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  myDayFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    return day !== 0;
-  }
-
   public onCancel() {
     const dialogRef = this.dialog.open(CancelOrderDialogComponent);
     dialogRef.afterClosed().subscribe((response) => {
       if (response === 'wis') {
-        this.clearOrder()
+        this.clearOrder();
+        this.router.navigate(['/home']);
       }
     })
   }

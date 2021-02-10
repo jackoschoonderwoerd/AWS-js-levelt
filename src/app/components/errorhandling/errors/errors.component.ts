@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MyError } from 'src/app/models/my-error.model';
+import { ErrorService } from '../error.service';
 
 
 
@@ -10,11 +12,12 @@ import { Router } from '@angular/router';
 })
 export class ErrorsComponent implements OnInit {
 
-  error;
+  error: MyError;
   showDetails: boolean = false;
 
   constructor(
     private router: Router,
+    private errorService: ErrorService
   ) 
   {
     // if(this.router.getCurrentNavigation().extras.state.error) {
@@ -24,13 +27,12 @@ export class ErrorsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-  }
-
-  onErrorDetails() {
-    this.showDetails = !this.showDetails;
-  }
-  onHome() {
-
-    this.router.navigate(['/home']);
+    this.errorService.errorSubject.subscribe((error: MyError) => {
+      console.log(error)
+    })
+    if(history.state.error) {
+      this.error = history.state.error
+      console.log(this.error.message)
+    }
   }
 }
